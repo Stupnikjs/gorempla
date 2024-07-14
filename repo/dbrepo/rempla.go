@@ -16,3 +16,7 @@ var InsertRemplaQuery string = `
 func (m *PostgresRepo) InsertRempla(rempla repo.Rempla) {
 
 }
+
+func (m *PostgresRepo) InitTable() {
+
+}
