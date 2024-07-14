@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/Stupnikjs/gorempla/api"
-	"github.com/Stupnikjs/gorempla/repo"
+	"github.com/Stupnikjs/gorempla/repo/dbrepo"
 	"github.com/joho/godotenv"
 )
 
@@ -25,7 +25,7 @@ func main() {
 
 	conn, err := app.ConnectToDB()
 
-	app.DB = &repo.PostgresRepo{
+	app.DB = &dbrepo.PostgresRepo{
 		DB: conn,
 	}
 	if err != nil {

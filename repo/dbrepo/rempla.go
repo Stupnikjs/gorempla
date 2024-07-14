@@ -13,8 +13,12 @@ type PostgresRepo struct {
 var InsertRemplaQuery string = `
 `
 
-func (m *PostgresRepo) InsertRempla(rempla repo.Rempla) {
+func (m *PostgresRepo) InsertRempla(rempla repo.Rempla) error {
+	return nil
+}
 
+func (m *PostgresRepo) DeleteRempla(int) error {
+	return nil
 }
 
 func (m *PostgresRepo) InitTable() {

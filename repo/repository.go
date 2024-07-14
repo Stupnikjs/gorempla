@@ -13,4 +13,5 @@ type Rempla struct {
 type DBrepo interface {
 	InsertRempla(Rempla) error
 	DeleteRempla(int) error
+	InitTable()
 }

@@ -33,6 +33,12 @@ func (app *Application) RenderAccueil(w http.ResponseWriter, r *http.Request) {
 
 	td := TemplateData{}
 
+	td.Data = make(map[string]any)
+
+	calendar := GetCalendar()
+
+	td.Data["Calendar"] = calendar
+
 	_ = render(w, r, "/acceuil.gohtml", &td)
 }
 func (app *Application) InsertRemplaHandler(w http.ResponseWriter, r *http.Request) {
