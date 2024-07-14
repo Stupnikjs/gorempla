@@ -26,6 +26,9 @@
             calendarDiv.appendChild(monthDiV)
             // add a week element that span all the width 
             for (let i=0; i < calendar.Calendar.lenght; i++){
+                if ( i % 7 == 0 ) {
+                   // create week component 
+                 }
                 let dayEl = document.createElement("div")
                 dayEl.classList.add("day")
                 dayEl.classList.add("m-10")
