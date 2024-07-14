@@ -11,9 +11,14 @@ console.log(today.getDate)
 
 let monthSelected = today.month()
 let monthSelectedLength = // 
-let monthArray = 
+let monthArray = new Array(monthSelectedLength).fill(0)
 
 
 let calendarDiv = document.createElement("div")
 
+for (let i=0; i < monthArray.length; i++) {
+    let dayDiv = document.createElement("div")
 
+
+
+}
