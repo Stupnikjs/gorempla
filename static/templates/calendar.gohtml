@@ -11,16 +11,17 @@
         hx-trigger="click"
         > + </button>
         <div id="calendardiv"> 
+            <div class="monthDiv"></div>
         </div>
     </section>
  <script src="https://unpkg.com/htmx.org@2.0.1" integrity="sha384-QWGpdj554B4ETpJJC9z+ZHJcA/i59TyjxEPXiiUgN2WmTyV5OEZWCD6gQhgkdpB/" crossorigin="anonymous"></script>
  <script src="https://cdn.tailwindcss.com"></script>
  <script>  
+      
       document.body.addEventListener('htmx:afterRequest', function(evt) {
             let calendarDiv = document.querySelector("#calendardiv")
             let calendar = JSON.parse(evt.detail.xhr.response)
-            console.log(calendar)
-            let monthDiV = document.createElement("div")
+            let monthDiV = document.querySelector(".monthDiv")
             monthDiV.textContent = calendar.Month
             calendarDiv.appendChild(monthDiV)
             for (let day of calendar.Calendar){
