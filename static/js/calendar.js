@@ -7,3 +7,13 @@ const  Months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet"
 const  daysOfWeek = ["L", "M", "M","J", "V", "S", "D"] 
 
 console.log(today.getDate)
+
+
+let monthSelected = today.month()
+let monthSelectedLength = // 
+let monthArray = 
+
+
+let calendarDiv = document.createElement("div")
+
+
