@@ -1,0 +1,39 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='/static/css/main.css' rel='stylesheet' >
+    <title>Document</title>
+</head>
+
+
+<body>
+    <header>
+        <nav>
+            <ul>
+              <li><a href="/remplaform"> Nouvelle Rempla </a> </li>
+              <li><a href="/">  </a> </li>
+            </ul>
+            
+        </nav>
+    </header>
+    <div class="grid-section">
+        <div class="padding-grid"></div>
+        <div class="content">
+            {{ block "content" . }}
+            {{ end }}
+        </div>
+        <div class="padding-grid"></div>
+    </div>
+        
+    <footer>
+        <ul>
+        
+        </ul>
+    </footer> 
+</body>
+<script defer src="https://kit.fontawesome.com/8c6e47f935.js" crossorigin="anonymous"></script>
+</html>
+{{ end }}
