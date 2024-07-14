@@ -6,19 +6,27 @@
         > - </button>
         <button 
         id="plusbtn"
-        hx-get="/api/calendar" 
+        hx-get="/api/calendar"
+        hx-swap="none" 
         hx-trigger="click"
         > + </button>
         <div id="calendardiv"> 
         </div>
     </section>
  <script src="https://unpkg.com/htmx.org@2.0.1" integrity="sha384-QWGpdj554B4ETpJJC9z+ZHJcA/i59TyjxEPXiiUgN2WmTyV5OEZWCD6gQhgkdpB/" crossorigin="anonymous"></script>
+ <script src="https://cdn.tailwindcss.com"></script>
  <script>  
       document.body.addEventListener('htmx:afterRequest', function(evt) {
             let calendarDiv = document.querySelector("#calendardiv")
             let calendar = JSON.parse(evt.detail.xhr.response)
-            for (let day of calendar){
+            console.log(calendar)
+            let monthDiV = document.createElement("div")
+            monthDiV.textContent = calendar.Month
+            calendarDiv.appendChild(monthDiV)
+            for (let day of calendar.Calendar){
                 let dayEl = document.createElement("div")
+                dayEl.classList.add("day")
+                dayEl.classList.add("m-10")
                 dayEl.textContent = day.Value
                 calendarDiv.appendChild(dayEl)
             }

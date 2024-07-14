@@ -1,0 +1,9 @@
+#calendardiv {
+display: flex; 
+flex-wrap: wrap; 
+
+}
+
+.day {
+width : 14%; 
+}

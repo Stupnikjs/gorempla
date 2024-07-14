@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -15,9 +14,15 @@ type CalendarElement struct {
 	Value int
 }
 
-func GetCalendar() []CalendarElement {
+type MonthCalendar struct {
+	Calendar []CalendarElement
+	Month    string
+}
+
+func GetCalendar() MonthCalendar {
 
 	today := time.Now()
+	_, month, _ := today.Date()
 	first := GetFirstDayOfMonth(today)
 
 	paddingLength := first - 1
@@ -39,8 +44,11 @@ func GetCalendar() []CalendarElement {
 		}
 		calendar = append(calendar, dayEl)
 	}
-	fmt.Println(calendar)
-	return calendar
+
+	return MonthCalendar{
+		Calendar: calendar,
+		Month:    Months[int(month)-1],
+	}
 
 }
 
