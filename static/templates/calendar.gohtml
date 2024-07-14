@@ -24,11 +24,12 @@
             let monthDiV = document.querySelector(".monthDiv")
             monthDiV.textContent = calendar.Month
             calendarDiv.appendChild(monthDiV)
-            for (let day of calendar.Calendar){
+            // add a week element that span all the width 
+            for (let i=0; i < calendar.Calendar.lenght; i++){
                 let dayEl = document.createElement("div")
                 dayEl.classList.add("day")
                 dayEl.classList.add("m-10")
-                dayEl.textContent = day.Value
+                dayEl.textContent = calendar.Calendar[i].Value
                 calendarDiv.appendChild(dayEl)
             }
 
