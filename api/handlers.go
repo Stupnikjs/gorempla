@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"html/template"
 	"net/http"
 	"path"
@@ -39,8 +40,20 @@ func (app *Application) RenderAccueil(w http.ResponseWriter, r *http.Request) {
 
 	td.Data["Calendar"] = calendar
 
-	_ = render(w, r, "/acceuil.gohtml", &td)
+	_ = render(w, r, "/calendar.gohtml", &td)
 }
 func (app *Application) InsertRemplaHandler(w http.ResponseWriter, r *http.Request) {
 
+}
+
+func (app *Application) CalendarHandler(w http.ResponseWriter, r *http.Request) {
+
+	calendar := GetCalendar()
+
+	bytes, err := json.Marshal(calendar)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+	w.Write(bytes)
 }

@@ -2,8 +2,29 @@
 
 {{define "content"}}
     <section class="accueil-section">
-        
+        <button hx-get="/api/calendar" 
+        > - </button>
+        <button 
+        id="plusbtn"
+        hx-get="/api/calendar" 
+        hx-trigger="click"
+        > + </button>
+        <div id="calendardiv"> 
+        </div>
     </section>
-    <script defer src="/static/js/calendar.js"></script>
-    
+ <script src="https://unpkg.com/htmx.org@2.0.1" integrity="sha384-QWGpdj554B4ETpJJC9z+ZHJcA/i59TyjxEPXiiUgN2WmTyV5OEZWCD6gQhgkdpB/" crossorigin="anonymous"></script>
+ <script>  
+      document.body.addEventListener('htmx:afterRequest', function(evt) {
+            let calendarDiv = document.querySelector("#calendardiv")
+            let calendar = JSON.parse(evt.detail.xhr.response)
+            for (let day of calendar){
+                let dayEl = document.createElement("div")
+                dayEl.textContent = day.Value
+                calendarDiv.appendChild(dayEl)
+            }
+
+            
+        });
+
+ </script>
 {{end}}
