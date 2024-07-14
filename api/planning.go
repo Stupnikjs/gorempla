@@ -17,9 +17,10 @@ type CalendarElement struct {
 type MonthCalendar struct {
 	Calendar []CalendarElement
 	Month    string
+ Remplas []dbrepo.Rempla
 }
 
-func GetCalendar() MonthCalendar {
+func (app *Application) GetCalendar() MonthCalendar {
 
 	today := time.Now()
 	_, month, _ := today.Date()
@@ -44,6 +45,10 @@ func GetCalendar() MonthCalendar {
 		}
 		calendar = append(calendar, dayEl)
 	}
+
+
+ // call rempla SQL that are on this month 
+ app.DB.GetRemplaByMonth()
 
 	return MonthCalendar{
 		Calendar: calendar,
