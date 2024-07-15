@@ -8,7 +8,12 @@ import (
 	"net/http"
 	"path"
 	"strconv"
+<<<<<<< HEAD
 	"time"
+=======
+
+	"github.com/go-chi/chi/v5"
+>>>>>>> b18673f5e4151ec5ef6b5b149257233febf65a9d
 )
 
 var pathToTemplates = "./static/templates/"
@@ -110,4 +115,33 @@ func (app *Application) ErrorResponse(w http.ResponseWriter, status int, err err
 	}
 	bytes, _ := json.Marshal(errResp)
 	w.Write(bytes)
+}
+
+func (app *Application) DeleteRemplaHandler(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		app.WriteErrorJson(w, err, 404)
+		return
+	}
+
+	err = app.DB.DeleteRempla(idInt)
+	if err != nil {
+		app.WriteErrorJson(w, err, 404)
+		return
+	}
+	w.WriteHeader(200)
+
+}
+func (app *Application) UpdateRemplaHandler(w http.ResponseWriter, r *http.Request) {
+	_ = chi.URLParam(r, "id")
+	RemplaReq, err := app.ParseRemplaRequest(r)
+	err = app.DB.UpdateRempla(RemplaReq.Rempla)
+
+	if err != nil {
+		app.WriteErrorJson(w, err, 404)
+		return
+	}
+	w.WriteHeader(200)
+
 }
