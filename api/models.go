@@ -14,7 +14,7 @@ type Application struct {
 	BucketName string
 }
 
-type JsonReq struct {
+type RemplaReq struct {
 	Action string      `json:"action"`
 	Rempla repo.Rempla `json:"object"`
 }
