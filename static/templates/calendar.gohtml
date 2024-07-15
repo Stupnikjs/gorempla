@@ -2,12 +2,13 @@
 
 {{define "content"}}
     <section class="accueil-section">
-        <button hx-post="/api/calendar/5" 
+        <button hx-post="/api/calendar" 
         > - </button>
         <button 
+        month="{{ .Data.Date.month }}"
+        year="{{ .Data.Date.year }}"
         id="plusbtn"
-        hx-get="/api/calendar"
-        hx-swap="none" 
+        hx-post="/api/calendar" 
         hx-trigger="click"
         > + </button>
         <div id="calendardiv"> 
@@ -17,8 +18,37 @@
  <script src="https://unpkg.com/htmx.org@2.0.1" integrity="sha384-QWGpdj554B4ETpJJC9z+ZHJcA/i59TyjxEPXiiUgN2WmTyV5OEZWCD6gQhgkdpB/" crossorigin="anonymous"></script>
  <script src="https://cdn.tailwindcss.com"></script>
  <script>  
-      
+      document.querySelector("#plusbtn").addEventListener("htmx:configRequest", function(event) {
+            const button = event.target;
+            const month = button.getAttribute("month");
+            const year = button.getAttribute("year");
+            
+            // Prepare JSON payload
+            const payload = {
+                month: month,
+                year: year
+            };
+
+            // Set the payload as the request body
+            event.detail.parameters = JSON.stringify(payload);
+            
+            // Set Content-Type header to application/json
+            event.detail.headers['Content-Type'] = 'application/json';
+        });
       document.body.addEventListener('htmx:afterRequest', function(evt) {
+            let btn = evt.target
+            if (btn.id == "plusbtn"){
+                let month = parseInt(btn.getAttribute("month"))
+                if (month < 12 ){
+                    btn.setAttribute("month", month += 1)
+                } else {
+                
+                let year = parseInt(btn.getAttribute("year"))
+                btn.setAttribute("year", year += 1)
+                  btn.setAttribute("month", 1)  
+                }
+
+            }
             let calendarDiv = document.querySelector("#calendardiv")
             let calendar = JSON.parse(evt.detail.xhr.response)
             let monthDiV = document.querySelector(".monthDiv")

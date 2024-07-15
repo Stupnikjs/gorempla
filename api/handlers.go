@@ -2,9 +2,13 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
+	"io"
 	"net/http"
 	"path"
+	"strconv"
+	"time"
 )
 
 var pathToTemplates = "./static/templates/"
@@ -34,6 +38,14 @@ func (app *Application) RenderAccueil(w http.ResponseWriter, r *http.Request) {
 
 	td := TemplateData{}
 
+	td.Data = make(map[string]any)
+
+	dateObj := make(map[string]int)
+	year, month, _ := time.Now().Date()
+	dateObj["year"] = year
+	dateObj["month"] = int(month)
+	td.Data["Date"] = dateObj
+
 	_ = render(w, r, "/calendar.gohtml", &td)
 }
 
@@ -41,23 +53,61 @@ func (app *Application) RenderRemplaForm(w http.ResponseWriter, r *http.Request)
 
 	td := TemplateData{}
 
+	td.Data = make(map[string]any)
+
+	dateObj := make(map[string]int)
+	year, month, _ := time.Now().Date()
+	dateObj["year"] = year
+	dateObj["month"] = int(month)
+	td.Data["Date"] = dateObj
+
 	_ = render(w, r, "/rempla_form.gohtml", &td)
 }
 func (app *Application) InsertRemplaHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+type jsonCalendar struct {
+	Month string `json:"month"`
+	Year  string `json:"year"`
+}
+
 func (app *Application) CalendarHandler(w http.ResponseWriter, r *http.Request) {
 
-	calendar, err := app.GetCalendar()
+	jsonReq := jsonCalendar{}
+	bytes, _ := io.ReadAll(r.Body)
+	json.Unmarshal(bytes, &jsonReq)
+	fmt.Println(jsonReq)
+	year, err := strconv.Atoi(jsonReq.Year)
+
 	if err != nil {
-		w.Write([]byte(err.Error()))
+		app.ErrorResponse(w, 404, err)
 		return
 	}
-	bytes, err := json.Marshal(calendar)
+	month, err := strconv.Atoi(jsonReq.Month)
+
 	if err != nil {
-		w.Write([]byte(err.Error()))
+		app.ErrorResponse(w, 404, err)
 		return
 	}
+
+	calendar, err := app.GetCalendar(year, time.Month(month))
+
+	bytes, err = json.Marshal(calendar)
+	if err != nil {
+		app.ErrorResponse(w, 404, err)
+	}
+	w.Write(bytes)
+}
+
+type ErrorResp struct {
+	Err string `json:"error"`
+}
+
+func (app *Application) ErrorResponse(w http.ResponseWriter, status int, err error) {
+	errResp := ErrorResp{
+		Err: err.Error(),
+	}
+	bytes, _ := json.Marshal(errResp)
 	w.Write(bytes)
 }

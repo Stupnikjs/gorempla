@@ -23,14 +23,12 @@ type MonthCalendar struct {
 	Remplas  []repo.Rempla
 }
 
-func (app *Application) GetCalendar() (*MonthCalendar, error) {
+func (app *Application) GetCalendar(year int, month time.Month) (*MonthCalendar, error) {
 
-	today := time.Now()
-	_, month, _ := today.Date()
-	first := GetFirstDayOfMonth(today)
+	date := time.Date(year, month, 1, 0, 0, 0, 0, &time.Location{})
+	first := date.Weekday()
 
 	paddingLength := first - 1
-
 	calendar := make([]CalendarElement, 0, 37)
 
 	for range paddingLength {
@@ -41,7 +39,7 @@ func (app *Application) GetCalendar() (*MonthCalendar, error) {
 		calendar = append(calendar, paddingEl)
 	}
 
-	for i := range GetNumberOfDayInMonth(today.Month()) {
+	for i := range GetNumberOfDayInMonth(year, month) {
 		dayEl := CalendarElement{
 			Type:  "day",
 			Value: i + 1,
@@ -64,16 +62,9 @@ func (app *Application) GetCalendar() (*MonthCalendar, error) {
 
 }
 
-func GetFirstDayOfMonth(date time.Time) int {
-	year, month, _ := date.Date()
-	FirstDayOfMonth := time.Date(year, month, 1, 0, 20, 0, 0, &time.Location{})
-	return int(FirstDayOfMonth.Weekday())
-}
+func GetNumberOfDayInMonth(year int, month time.Month) int {
 
-func GetNumberOfDayInMonth(month time.Month) int {
-	today := time.Now()
-	year, _, _ := today.Date()
-	if int(month) != 12 {
+	if month != 12 {
 		monthAfter := time.Date(year, month+1, 1, 0, 0, 0, 0, &time.Location{})
 		lastDayOfMonth := monthAfter.Add(time.Hour * -26)
 		_, _, len := lastDayOfMonth.Date()
