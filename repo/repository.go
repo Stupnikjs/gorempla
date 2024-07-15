@@ -15,4 +15,5 @@ type DBrepo interface {
 	DeleteRempla(int) error
 	InitTable() error
 	UpdateRempla(Rempla) error
+	GetAllRempla() ([]Rempla, error)
 }

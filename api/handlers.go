@@ -8,12 +8,9 @@ import (
 	"net/http"
 	"path"
 	"strconv"
-<<<<<<< HEAD
 	"time"
-=======
 
 	"github.com/go-chi/chi/v5"
->>>>>>> b18673f5e4151ec5ef6b5b149257233febf65a9d
 )
 
 var pathToTemplates = "./static/templates/"
@@ -69,7 +66,15 @@ func (app *Application) RenderRemplaForm(w http.ResponseWriter, r *http.Request)
 	_ = render(w, r, "/rempla_form.gohtml", &td)
 }
 func (app *Application) InsertRemplaHandler(w http.ResponseWriter, r *http.Request) {
+	RemplaReq, err := app.ParseRemplaRequest(r)
+	if err != nil {
+		app.ErrorResponse(w, 404, err)
+		return
+	}
 
+	err = app.DB.InsertRempla(RemplaReq.Rempla)
+
+	w.Write([]byte("insert in db succeded"))
 }
 
 type jsonCalendar struct {
@@ -105,13 +110,9 @@ func (app *Application) CalendarHandler(w http.ResponseWriter, r *http.Request) 
 	w.Write(bytes)
 }
 
-type ErrorResp struct {
-	Err string `json:"error"`
-}
-
 func (app *Application) ErrorResponse(w http.ResponseWriter, status int, err error) {
 	errResp := ErrorResp{
-		Err: err.Error(),
+		Error: err.Error(),
 	}
 	bytes, _ := json.Marshal(errResp)
 	w.Write(bytes)
@@ -143,5 +144,20 @@ func (app *Application) UpdateRemplaHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	w.WriteHeader(200)
+
+}
+func (app *Application) GetAllRemplaHandler(w http.ResponseWriter, r *http.Request) {
+
+	Remplas, err := app.DB.GetAllRempla()
+
+	if err != nil {
+		app.WriteErrorJson(w, err, 404)
+		return
+	}
+
+	bytes, err := json.Marshal(Remplas)
+	w.WriteHeader(200)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(bytes)
 
 }

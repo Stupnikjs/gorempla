@@ -3,6 +3,7 @@ package dbrepo
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	"github.com/Stupnikjs/gorempla/repo"
 )
@@ -20,7 +21,7 @@ func (m *PostgresRepo) InsertRempla(rempla repo.Rempla) error {
 
 	_, err := m.DB.ExecContext(ctx,
 		`
-		INSERT INTO Remplas (Debut, Fin, Lieu, Logiciel, Retrocession, Temps_trajet)
+		INSERT INTO remplas (debut, fin, lieu, logiciel, retrocession, temps_trajet)
 		VALUES ($1, $2, $3, $4, $5, $6);
 		`, rempla.Debut,
 		rempla.Fin,
@@ -37,7 +38,7 @@ func (m *PostgresRepo) DeleteRempla(id int) error {
 
 	_, err := m.DB.ExecContext(ctx,
 		`
-	DELETE FROM Remplas WHERE Id = $1
+	DELETE FROM remplas WHERE id = $1
 	`, id)
 	return err
 }
@@ -47,14 +48,14 @@ func (m *PostgresRepo) UpdateRempla(rempla repo.Rempla) error {
 	defer cancel()
 
 	_, err := m.DB.ExecContext(ctx, `
-	UPDATE Remplas
+	UPDATE remplas
 	SET
-    Debut = $2,
-    Fin = $3,
-    Lieu = $4,
-    Logiciel = $5,
-    Retrocession = $6,
-    Temps_trajet = $7
+		debut = $2,
+		fin = $3,
+		lieu = $4,
+		logiciel = $5,
+		retrocession = $6,
+		temps_trajet = $7
 	WHERE id = $1;
 	`,
 		rempla.Id,
@@ -73,14 +74,44 @@ func (m *PostgresRepo) InitTable() error {
 	defer cancel()
 
 	_, err := m.DB.ExecContext(ctx, `
-	CREATE TABLE IF NOT EXISTS Remplas (
-	Id SERIAL PRIMARY KEY,
-    Debut TEXT,
-    Fin TEXT,
-    Lieu TEXT,
-    Logiciel TEXT,
-    Retrocession TEXT,
-    Temps_trajet TEXT
+	CREATE TABLE IF NOT EXISTS remplas (
+	id SERIAL PRIMARY KEY,
+    debut TEXT,
+    fin TEXT,
+    lieu TEXT,
+    logiciel TEXT,
+    retrocession INTEGER,
+    temps_trajet INTEGER
 );`)
 	return err
+}
+
+func (m *PostgresRepo) GetAllRempla() ([]repo.Rempla, error) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	rows, err := m.DB.QueryContext(ctx,
+		` 
+	SELECT debut, fin, lieu, logiciel, retrocession, temps_trajet 
+	FROM remplas; 
+	`)
+	if err != nil {
+		// handle the error
+		return nil, err
+	}
+	defer rows.Close()
+	var remplas []repo.Rempla
+	for rows.Next() {
+		var rempla repo.Rempla
+		err := rows.Scan(&rempla.Debut, &rempla.Fin, &rempla.Lieu, &rempla.Logiciel, &rempla.Retrocession, &rempla.Temps_trajet)
+		if err != nil {
+			// handle the error
+			return nil, err
+		}
+		fmt.Println(rempla)
+		// process rempla
+		remplas = append(remplas, rempla)
+	}
+
+	return remplas, nil
 }
