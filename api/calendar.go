@@ -49,17 +49,9 @@ func (app *Application) GetCalendar() (*MonthCalendar, error) {
 		calendar = append(calendar, dayEl)
 	}
 
-	// call rempla SQL that are on this month
-	remplas, err := app.DB.GetRemplaByMonth(int(month))
-
-	if err != nil {
-		return nil, err
-	}
-
 	return &MonthCalendar{
 		Calendar: calendar,
 		Month:    Months[int(month)-1],
-		Remplas:  remplas,
 	}, nil
 
 }

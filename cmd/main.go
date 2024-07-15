@@ -31,7 +31,9 @@ func main() {
 		log.Fatalf("Error loading db conn: %v", err)
 	}
 
-	app.DB.InitTable()
+	err = app.DB.InitTable()
+
+	fmt.Println(err)
 
 	http.ListenAndServe(fmt.Sprintf(":%d", app.Port), app.Routes())
 

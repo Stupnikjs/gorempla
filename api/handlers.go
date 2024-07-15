@@ -5,6 +5,9 @@ import (
 	"html/template"
 	"net/http"
 	"path"
+	"strconv"
+
+	"github.com/go-chi/chi/v5"
 )
 
 var pathToTemplates = "./static/templates/"
@@ -60,4 +63,33 @@ func (app *Application) CalendarHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	w.Write(bytes)
+}
+
+func (app *Application) DeleteRemplaHandler(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		app.WriteErrorJson(w, err, 404)
+		return
+	}
+
+	err = app.DB.DeleteRempla(idInt)
+	if err != nil {
+		app.WriteErrorJson(w, err, 404)
+		return
+	}
+	w.WriteHeader(200)
+
+}
+func (app *Application) UpdateRemplaHandler(w http.ResponseWriter, r *http.Request) {
+	_ = chi.URLParam(r, "id")
+	RemplaReq, err := app.ParseRemplaRequest(r)
+	err = app.DB.UpdateRempla(RemplaReq.Rempla)
+
+	if err != nil {
+		app.WriteErrorJson(w, err, 404)
+		return
+	}
+	w.WriteHeader(200)
+
 }

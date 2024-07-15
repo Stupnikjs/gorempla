@@ -1,18 +1,18 @@
 package repo
 
 type Rempla struct {
-	Debut        string
-	Fin          string
-	Lieu         string
-	Logiciel     string
-	Retrocession string
-	Temps_trajet string
-	Couleur      string
+	Id           int
+	Debut        string `json:"debut"`
+	Fin          string `json:"fin"`
+	Lieu         string `json:"lieu"`
+	Logiciel     string `json:"logiciel"`
+	Retrocession int    `json:"retrocession"`
+	Temps_trajet int    `json:"temps_trajet"`
 }
 
 type DBrepo interface {
 	InsertRempla(Rempla) error
 	DeleteRempla(int) error
-	InitTable()
-	GetRemplaByMonth(int) ([]Rempla, error)
+	InitTable() error
+	UpdateRempla(Rempla) error
 }

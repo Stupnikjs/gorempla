@@ -14,14 +14,28 @@ type Application struct {
 	BucketName string
 }
 
-type JsonReq struct {
+type RemplaReq struct {
 	Action string      `json:"action"`
 	Rempla repo.Rempla `json:"object"`
 }
 
-func ParseJsonReq(r *http.Request) (*JsonReq, error) {
+type ErrorResp struct {
+	Error string `json:"error"`
+}
 
-	reqJson := JsonReq{}
+func (app *Application) WriteErrorJson(w http.ResponseWriter, err error, status int) {
+	errJson := ErrorResp{
+		Error: err.Error(),
+	}
+
+	bytes, _ := json.Marshal(errJson)
+	w.WriteHeader(status)
+	w.Write(bytes)
+}
+
+func (app *Application) ParseRemplaRequest(r *http.Request) (*RemplaReq, error) {
+
+	reqJson := RemplaReq{}
 	bytes, err := io.ReadAll(r.Body)
 	if err != nil {
 		return nil, err
