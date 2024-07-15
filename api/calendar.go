@@ -2,10 +2,13 @@ package api
 
 import (
 	"time"
+
+	"github.com/Stupnikjs/gorempla/repo"
 )
 
 var Months = []string{"Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"}
-var daysOfWeek = []string{"D", "L", "M", "M", "J", "V", "S"}
+
+// var daysOfWeek = []string{"D", "L", "M", "M", "J", "V", "S"}
 
 type CalendarElementType string
 
@@ -17,10 +20,10 @@ type CalendarElement struct {
 type MonthCalendar struct {
 	Calendar []CalendarElement
 	Month    string
- Remplas []dbrepo.Rempla
+	Remplas  []repo.Rempla
 }
 
-func (app *Application) GetCalendar() MonthCalendar {
+func (app *Application) GetCalendar() (*MonthCalendar, error) {
 
 	today := time.Now()
 	_, month, _ := today.Date()
@@ -46,14 +49,18 @@ func (app *Application) GetCalendar() MonthCalendar {
 		calendar = append(calendar, dayEl)
 	}
 
+	// call rempla SQL that are on this month
+	remplas, err := app.DB.GetRemplaByMonth(int(month))
 
- // call rempla SQL that are on this month 
- app.DB.GetRemplaByMonth()
+	if err != nil {
+		return nil, err
+	}
 
-	return MonthCalendar{
+	return &MonthCalendar{
 		Calendar: calendar,
 		Month:    Months[int(month)-1],
-	}
+		Remplas:  remplas,
+	}, nil
 
 }
 
@@ -65,7 +72,7 @@ func GetFirstDayOfMonth(date time.Time) int {
 
 func GetNumberOfDayInMonth(month time.Month) int {
 	today := time.Now()
-	year, month, _ := today.Date()
+	year, _, _ := today.Date()
 	if int(month) != 12 {
 		monthAfter := time.Date(year, month+1, 1, 0, 0, 0, 0, &time.Location{})
 		lastDayOfMonth := monthAfter.Add(time.Hour * -26)

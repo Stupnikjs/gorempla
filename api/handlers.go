@@ -34,13 +34,14 @@ func (app *Application) RenderAccueil(w http.ResponseWriter, r *http.Request) {
 
 	td := TemplateData{}
 
-	td.Data = make(map[string]any)
-
-	calendar := GetCalendar()
-
-	td.Data["Calendar"] = calendar
-
 	_ = render(w, r, "/calendar.gohtml", &td)
+}
+
+func (app *Application) RenderRemplaForm(w http.ResponseWriter, r *http.Request) {
+
+	td := TemplateData{}
+
+	_ = render(w, r, "/rempla_form.gohtml", &td)
 }
 func (app *Application) InsertRemplaHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -48,8 +49,11 @@ func (app *Application) InsertRemplaHandler(w http.ResponseWriter, r *http.Reque
 
 func (app *Application) CalendarHandler(w http.ResponseWriter, r *http.Request) {
 
-	calendar := GetCalendar()
-
+	calendar, err := app.GetCalendar()
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
 	bytes, err := json.Marshal(calendar)
 	if err != nil {
 		w.Write([]byte(err.Error()))

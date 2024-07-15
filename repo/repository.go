@@ -14,4 +14,5 @@ type DBrepo interface {
 	InsertRempla(Rempla) error
 	DeleteRempla(int) error
 	InitTable()
+	GetRemplaByMonth(int) ([]Rempla, error)
 }

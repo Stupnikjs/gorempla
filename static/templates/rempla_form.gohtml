@@ -1,18 +1,20 @@
 {{template "base" .}}
 
 {{define "content"}}
-    <section class="accueil-section">
-        <button hx-post="/api/calendar/5" 
-        > - </button>
-        <button 
-        id="plusbtn"
-        hx-get="/api/calendar"
-        hx-swap="none" 
-        hx-trigger="click"
-        > + </button>
-        <div id="calendardiv"> 
-            <div class="monthDiv"></div>
-        </div>
+    <section class="new-rempla-section">
+        <form hx-post="/api/rempla/new">
+            <label>Debut du remplacement</label>
+            <input name="debut" type="date">
+            <label>Fin du remplacement</label>
+            <input name="fin" type="date">
+            <label>Ville </label>
+            <input name="ville" type="text">
+            <label>Logiciel </label>
+            <input name="logiciel" type="text">
+            <label> Minutes de trajet </label>
+            <input name="minutes" type="number">
+            <button type="submit" > Envoyer </button>
+        </form>
     </section>
  <script src="https://unpkg.com/htmx.org@2.0.1" integrity="sha384-QWGpdj554B4ETpJJC9z+ZHJcA/i59TyjxEPXiiUgN2WmTyV5OEZWCD6gQhgkdpB/" crossorigin="anonymous"></script>
  <script src="https://cdn.tailwindcss.com"></script>

@@ -21,6 +21,9 @@ func (m *PostgresRepo) DeleteRempla(int) error {
 	return nil
 }
 
+func (m *PostgresRepo) GetRemplaByMonth(month int) ([]repo.Rempla, error) {
+	return nil, nil
+}
 func (m *PostgresRepo) InitTable() {
 
 }
