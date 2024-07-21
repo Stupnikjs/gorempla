@@ -79,9 +79,12 @@ func (m *PostgresRepo) InitTable() error {
     debut TEXT,
     fin TEXT,
     lieu TEXT,
+    created_at DATETIME,
+    updated_at DATETIME,
     logiciel TEXT,
     retrocession INTEGER,
-    temps_trajet INTEGER
+    temps_trajet INTEGER, 
+    validated BOOLEAN, 
 );`)
 	return err
 }
