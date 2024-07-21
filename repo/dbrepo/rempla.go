@@ -13,9 +13,6 @@ type PostgresRepo struct {
 	DB *sql.DB
 }
 
-var InsertRemplaQuery string = `
-`
-
 func (m *PostgresRepo) InsertRempla(rempla repo.Rempla) error {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -94,6 +91,15 @@ func (m *PostgresRepo) InitTable() error {
     retrocession INTEGER,
     temps_trajet INTEGER, 
     validated BOOLEAN, 
+);`)
+	return err
+}
+func (m *PostgresRepo) DeleteTable() error {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	_, err := m.DB.ExecContext(ctx, `
+	DROP TABLE remplas;
 );`)
 	return err
 }
