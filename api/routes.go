@@ -12,7 +12,6 @@ func (app *Application) Routes() http.Handler {
 
 	mux.Get("/", app.RenderAccueil)
 	mux.Get("/form", app.RenderRemplaForm)
-	mux.Post("/api/calendar/{month}", app.CalendarHandler)
 
 	mux.Get("/api/rempla/all", app.GetAllRemplaHandler)
 	mux.Post("/api/rempla/new", app.InsertRemplaHandler)

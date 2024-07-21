@@ -1,16 +1,18 @@
 package repo
 
+import "time"
+
 type Rempla struct {
 	Id           int
 	Debut        string `json:"debut"`
 	Fin          string `json:"fin"`
 	Lieu         string `json:"lieu"`
 	Logiciel     string `json:"logiciel"`
-    Created_at string time.Time
-    Updated_at string time.Time
-    Validated bool `json::"validated"`
-	Retrocession int    `json:"retrocession"`
-	Temps_trajet int    `json:"temps_trajet"`
+	Created_at   time.Time
+	Updated_at   time.Time
+	Validated    bool `json:"validated"`
+	Retrocession int  `json:"retrocession"`
+	Temps_trajet int  `json:"temps_trajet"`
 }
 
 type DBrepo interface {

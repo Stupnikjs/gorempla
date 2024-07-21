@@ -2,9 +2,7 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"html/template"
-	"io"
 	"net/http"
 	"path"
 	"strconv"
@@ -80,34 +78,6 @@ func (app *Application) InsertRemplaHandler(w http.ResponseWriter, r *http.Reque
 type jsonCalendar struct {
 	Month string `json:"month"`
 	Year  string `json:"year"`
-}
-
-func (app *Application) CalendarHandler(w http.ResponseWriter, r *http.Request) {
-
-	jsonReq := jsonCalendar{}
-	bytes, _ := io.ReadAll(r.Body)
-	json.Unmarshal(bytes, &jsonReq)
-	fmt.Println(jsonReq)
-	year, err := strconv.Atoi(jsonReq.Year)
-
-	if err != nil {
-		app.ErrorResponse(w, 404, err)
-		return
-	}
-	month, err := strconv.Atoi(jsonReq.Month)
-
-	if err != nil {
-		app.ErrorResponse(w, 404, err)
-		return
-	}
-
-	calendar, err := app.GetCalendar(year, time.Month(month))
-
-	bytes, err = json.Marshal(calendar)
-	if err != nil {
-		app.ErrorResponse(w, 404, err)
-	}
-	w.Write(bytes)
 }
 
 func (app *Application) ErrorResponse(w http.ResponseWriter, status int, err error) {
