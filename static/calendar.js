@@ -1,0 +1,6 @@
+function createCalendar(remplas, monthInt){
+    // 
+
+
+
+}
