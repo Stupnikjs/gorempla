@@ -85,12 +85,12 @@ func (m *PostgresRepo) InitTable() error {
     debut TEXT,
     fin TEXT,
     lieu TEXT,
-    created_at DATETIME,
-    updated_at DATETIME,
+    created_at DATE,
+    updated_at DATE,
     logiciel TEXT,
     retrocession INTEGER,
     temps_trajet INTEGER, 
-    validated BOOLEAN, 
+    validated BOOLEAN
 );`)
 	return err
 }
@@ -99,8 +99,7 @@ func (m *PostgresRepo) DeleteTable() error {
 	defer cancel()
 
 	_, err := m.DB.ExecContext(ctx, `
-	DROP TABLE remplas;
-);`)
+	DROP TABLE remplas;`)
 	return err
 }
 

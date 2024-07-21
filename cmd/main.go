@@ -31,7 +31,7 @@ func main() {
 		log.Fatalf("Error loading db conn: %v", err)
 	}
 
-	err = app.DB.DeleteTable()
+	// err = app.DB.DeleteTable()
 
 	fmt.Println(err)
 	err = app.DB.InitTable()
