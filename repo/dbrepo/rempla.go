@@ -21,11 +21,13 @@ func (m *PostgresRepo) InsertRempla(rempla repo.Rempla) error {
 
 	_, err := m.DB.ExecContext(ctx,
 		`
-		INSERT INTO remplas (debut, fin, lieu, logiciel, retrocession, temps_trajet)
-		VALUES ($1, $2, $3, $4, $5, $6);
+		INSERT INTO remplas (debut, fin, lieu, created_at, updated_at, logiciel, retrocession, temps_trajet, validated)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
 		`, rempla.Debut,
 		rempla.Fin,
 		rempla.Lieu,
+  rempla.Created_at,
+  rempla.Updated_at,
 		rempla.Logiciel,
 		rempla.Retrocession,
 		rempla.Temps_trajet)
