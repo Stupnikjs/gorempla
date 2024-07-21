@@ -1,7 +1,7 @@
 let mocksRemplas = [
     {
         debut: "2024-07-25",
-        fin: "2024-07-31"
+        fin: "2024-07-28"
     },
     {
         debut: "2024-07-05",
@@ -9,7 +9,7 @@ let mocksRemplas = [
     },
 ]
 
-
+let colors = ["blue", "purple"]
 
 function createCalendar(remplas){
     let calendarDiv = document.querySelector("#calendarDiv")
@@ -52,22 +52,39 @@ function createCalendarDiv(arr, remplas){
         if (i==0) {
             appendDayBar(div)
         }
-        if (i%7 == 0 && i != 0) {
-            for (let j=0; j < remplas.length; i++){
-                        let remplaBar = document.createElement("span")
-                        remplaBar.style.padding = "1rem"
-                        remplaBar.style.border = "1px solid black"
-                        remplaBar.style.gridColumn = "7 span "
-                        remplaBar.style.width = "100%"
-                        div.appendChild(remplaBar)
-            }
-            
-        }
         let span = document.createElement("span")
         span.textContent = arr[i].getDate()
         span.style.padding = "1rem"
         span.style.border = "1px solid black"
         div.appendChild(span)
+        if ((i+1) % 7 == 0  && i != 0) {
+            for (let j=0; j < remplas.length; j++){
+                        let sevenDaysAgo = new Date(arr[i].getTime() - (7 * 24 * 60 * 60 * 1000));
+                        if ( new Date(remplas[j].fin) > sevenDaysAgo ) {
+                            let remplaBar = document.createElement("span")
+                            remplaBar.style.padding = "1rem"
+                            remplaBar.style.border = "1px solid black"
+                            remplaBar.style.gridColumn = "7 span "
+                            remplaBar.style.width = "100%"
+                            remplaBar.style.backgroundColor = colors[j]
+                            div.appendChild(remplaBar)
+                        }
+                        
+            }
+            
+        }
+        if (i == arr.length - 1  && i != 0){
+            for (let j=0; j < remplas.length; j++){
+                let remplaBar = document.createElement("span")
+                remplaBar.style.padding = "1rem"
+                remplaBar.style.border = "1px solid black"
+                remplaBar.style.gridColumn = "7 span "
+                remplaBar.style.width = "100%"
+                remplaBar.style.backgroundColor = colors[j]
+                div.appendChild(remplaBar)
+            }
+        }
+        
     }
     return div
 }
