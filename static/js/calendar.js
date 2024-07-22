@@ -1,4 +1,4 @@
-/*
+de/*
         pour que le week composant soit ajouté pour la rempla il faut 
         que la fin soit superieure ou egale a la premiere date de la semaine 
         et que le debut soit inferieure ou egale la fin de la semaine  
@@ -174,3 +174,11 @@ function getChildRemplaBar(rempla, start, end){
 
 
 createCalendar(mocksRemplas)
+
+
+/* 
+Si debut < start et fin < end 
+la difference end - fin == 
+
+
+*/
