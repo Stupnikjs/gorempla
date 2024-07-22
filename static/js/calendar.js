@@ -73,7 +73,7 @@ function createCalendarDiv(arr, remplas){
             
         }
         if (i == arr.length - 1  && i != 0){
-            let dayOfWeekLastOfMonth = arr[i].getDay()
+            let dayOfWeekLastOfMonth = arr[i].getWeekDay()
             let firstDayWeek = getDateMinusDays(arr[i], dayOfWeekLastOfMonth - 1)
             for (let j=0; j < remplas.length; j++){
                 let remplaBar = document.createElement("span")
@@ -112,14 +112,10 @@ function getDateMinusDays(date, minus){
 }
 
 
-/*
 
-
-let adjustedDayOfWeek = (date.getDay() + 6) % 7 + 1;
-console.log(adjustedDayOfWeek);
-
-
-*/
+function getDayWeek(date) {
+return date.getDay() + 6) % 7 + 1;
+}
 
 
 createCalendar(mocksRemplas)
