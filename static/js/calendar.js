@@ -133,23 +133,40 @@ function getSpanGridColumn(debut, fin, weekFirstLast){
 }
 
 
-function createRemplaBar(rempla){
+function createRemplaBar(rempla, start, end){
     let remplaBar = document.createElement("span")
     remplaBar.style.padding = "1rem"
     remplaBar.style.display = "block"
     remplaBar.style.border = "1px solid black"
     remplaBar.style.width = "100%"
-    let childRemplaBar = document.createElement("div")
-    childRemplaBar.style.width = "86%"
-    childRemplaBar.textContent = rempla.lieu
+    let childRemplaBar = getChildRemplaBar(rempla, start, end)
     childRemplaBar.style.backgroundColor = "green"
-    childRemplaBar.style.minHeight = "100%"
-    childRemplaBar.style.padding = "1rem"
     remplaBar.appendChild(childRemplaBar)
     return remplaBar
 }
 
 
+function getChildRemplaBar(rempla, start, end){
+    let childRemplaBar = document.createElement("div")
+
+    // Case rempla out of week boundries
+    if ( new Date(rempla.start) <=  new Date(start) && new Date(rempla.end) >=  new Date(end)){
+        childRemplaBar.style.width = "100%"
+    }
+    // Case end == start 
+    if ( new Date(rempla.end) ==  new Date(start)){
+        childRemplaBar.style.width = "14%"
+    }
+    // Case start == 
+    // Case end == start 
+    if ( new Date(rempla.end) >  new Date(start) && new Date()){
+        childRemplaBar.style.width = "14%"
+    }
+    childRemplaBar.textContent = rempla.lieu
+    childRemplaBar.style.minHeight = "100%"
+    childRemplaBar.style.padding = "1rem"
+    return childRemplaBar
+}
 
 
 createCalendar(mocksRemplas)
