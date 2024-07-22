@@ -136,7 +136,8 @@ function getSpanGridColumn(debut, fin, weekFirstLast){
 function createRemplaBar(rempla, start, end){
     let remplaBar = document.createElement("span")
     remplaBar.style.padding = "1rem"
-    remplaBar.style.display = "block"
+    remplaBar.style.display = "grid"
+    remplaBar.style.gridTemplateColumns = "repeat(7, 1fr)"
     remplaBar.style.border = "1px solid black"
     remplaBar.style.width = "100%"
     let childRemplaBar = getChildRemplaBar(rempla, start, end)
@@ -151,16 +152,14 @@ function getChildRemplaBar(rempla, start, end){
 
     // Case rempla out of week boundries
     if ( new Date(rempla.start) <=  new Date(start) && new Date(rempla.end) >=  new Date(end)){
-        childRemplaBar.style.width = "100%"
+        childRemplaBar.style.gridColumnEnd = "7"
     }
     // Case end == start 
     if ( new Date(rempla.end) ==  new Date(start)){
-        childRemplaBar.style.width = "14%"
     }
     // Case start == 
     // Case end == start 
     if ( new Date(rempla.end) >  new Date(start) && new Date()){
-        childRemplaBar.style.width = "14%"
     }
     childRemplaBar.textContent = rempla.lieu
     childRemplaBar.style.minHeight = "100%"
