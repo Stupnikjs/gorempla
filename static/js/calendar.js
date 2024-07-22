@@ -176,9 +176,14 @@ function getChildRemplaBar(rempla, start, end){
 createCalendar(mocksRemplas)
 
 
+
+function getDayDiff(maj,min){
+ let milisecDif = maj.getTime() - min.getTime()
+ return milisecDif / (1000 * 60 * 60 * 24)
+}
+
 /* 
 Si debut < start et fin < end 
 la difference end - fin == espace après childRemplaBar
-
 
 */
