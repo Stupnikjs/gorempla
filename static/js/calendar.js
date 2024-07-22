@@ -149,10 +149,15 @@ function createRemplaBar(rempla, start, end){
 
 function getChildRemplaBar(rempla, start, end){
     let childRemplaBar = document.createElement("div")
-
+    let startGrid = 0
+    let endGrid = 0
+    console.log(new Date(rempla.start) <=  new Date(start) && new Date(rempla.end) >=  new Date(end))
+    console.log(new Date(rempla.start) <=  new Date(start) && new Date(rempla.end) >=  new Date(end))
+    console.log(new Date(rempla.start) <=  new Date(start) && new Date(rempla.end) >=  new Date(end))
     // Case rempla out of week boundries
     if ( new Date(rempla.start) <=  new Date(start) && new Date(rempla.end) >=  new Date(end)){
-        childRemplaBar.style.gridColumnEnd = "7"
+        startGrid = 1
+        endGrid = 7
     }
     // Case end == start 
     if ( new Date(rempla.end) ==  new Date(start)){
@@ -161,8 +166,8 @@ function getChildRemplaBar(rempla, start, end){
     // Case end == start 
     if ( new Date(rempla.end) >  new Date(start) && new Date()){
     }
-    childRemplaBar.textContent = rempla.lieu
-    childRemplaBar.style.minHeight = "100%"
+    childRemplaBar.style.gridColumn = `${startGrid}/ span ${endGrid}`
+    // childRemplaBar.textContent = rempla.lieu
     childRemplaBar.style.padding = "1rem"
     return childRemplaBar
 }
