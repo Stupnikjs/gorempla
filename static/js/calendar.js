@@ -178,7 +178,7 @@ createCalendar(mocksRemplas)
 
 /* 
 Si debut < start et fin < end 
-la difference end - fin == 
+la difference end - fin == espace après childRemplaBar
 
 
 */
