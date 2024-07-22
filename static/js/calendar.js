@@ -1,7 +1,13 @@
+/*
+        pour que le week composant soit ajouté pour la rempla il faut 
+        que la fin soit superieure ou egale a la premiere date de la semaine 
+        et que le debut soit inferieure ou egale la fin de la semaine  
+*/
+
 let mocksRemplas = [
     {
         debut: "2024-07-25",
-        fin: "2024-07-28"
+        fin: "2024-07-31"
     },
     {
         debut: "2024-07-05",
@@ -14,7 +20,7 @@ let colors = ["blue", "purple"]
 function createCalendar(remplas){
     let calendarDiv = document.querySelector("#calendarDiv")
     let today = new Date()
-    let firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1).getDay()
+    let firstOfMonth = getWeekDay(new Date(today.getFullYear(), today.getMonth(), 1))
     let lastOfMonth = getMonthDayCount(today)
     let paddingNum = firstOfMonth - 1
     let arr = buildArr(paddingNum, lastOfMonth, today)
@@ -58,35 +64,33 @@ function createCalendarDiv(arr, remplas){
         div.appendChild(span)
         if ((i+1) % 7 == 0  && i != 0) {
             for (let j=0; j < remplas.length; j++){
-                        let sevenDaysAgo = new Date(arr[i].getTime() - (7 * 24 * 60 * 60 * 1000));
-                        if ( new Date(remplas[j].fin) > sevenDaysAgo ) {
-                            let remplaBar = document.createElement("span")
-                            remplaBar.style.padding = "1rem"
-                            remplaBar.style.border = "1px solid black"
-                            remplaBar.style.gridColumn = "7 span "
-                            remplaBar.style.width = "100%"
-                            remplaBar.style.backgroundColor = colors[j]
-                            div.appendChild(remplaBar)
-                        }
-                        
+                let sevenDaysAgo = new Date(arr[i].getTime() - (7 * 24 * 60 * 60 * 1000));
+                if ( new Date(remplas[j].fin) >= sevenDaysAgo 
+                    && new Date(remplas[j].debut) <= arr[i] ) {
+                    let remplaBar = createRemplaBar(j)
+                    remplaBar.style.gridColumn = getSpanGridColumn(remplas[j].debut, remplas[j].fin, [sevenDaysAgo, arr[i]] )
+                    div.appendChild(remplaBar)
+                }           
             }
             
         }
         if (i == arr.length - 1  && i != 0){
-            let dayOfWeekLastOfMonth = arr[i].getWeekDay()
+            let dayOfWeekLastOfMonth = getWeekDay(arr[i])
             let firstDayWeek = getDateMinusDays(arr[i], dayOfWeekLastOfMonth - 1)
+            
             for (let j=0; j < remplas.length; j++){
-                let remplaBar = document.createElement("span")
-                remplaBar.style.padding = "1rem"
-                remplaBar.style.border = "1px solid black"
-                remplaBar.style.gridColumn = "7 span "
-                remplaBar.style.width = "100%"
-                remplaBar.style.backgroundColor = colors[j]
+                if (firstDayWeek < new Date(remplas[j].fin) 
+                    && new Date(remplas[j].debut) < firstDayWeek  ){
+                let remplaBar = createRemplaBar(j)
+                remplaBar.style.gridColumn = getSpanGridColumn(remplas[j].debut, remplas[j].fin, [firstDayWeek, arr[i]] )
+                remplaBar.style.color = colors[j]
                 div.appendChild(remplaBar)
-            }
+                    }
+                }
+        }
         }
         
-    }
+    
     return div
 }
 
@@ -113,9 +117,39 @@ function getDateMinusDays(date, minus){
 
 
 
-function getDayWeek(date) {
-return date.getDay() + 6) % 7 + 1;
+function getWeekDay(date) {
+return (date.getDay() + 6) % 7 + 1;
 }
+
+
+function getSpanGridColumn(debut, fin, weekFirstLast){
+    let debutDate = new Date(debut)
+    let finDate = new Date(fin)
+
+    if (weekFirstLast[0] > debutDate && weekFirstLast[1] < finDate){
+        return "7 span"
+    }
+    return "7 span"
+}
+
+
+function createRemplaBar(rempla){
+    let remplaBar = document.createElement("span")
+    remplaBar.style.padding = "1rem"
+    remplaBar.style.display = "block"
+    remplaBar.style.border = "1px solid black"
+    remplaBar.style.width = "100%"
+    let childRemplaBar = document.createElement("div")
+    childRemplaBar.style.width = "86%"
+    childRemplaBar.textContent = rempla.lieu
+    childRemplaBar.style.backgroundColor = "green"
+    childRemplaBar.style.minHeight = "100%"
+    childRemplaBar.style.padding = "1rem"
+    remplaBar.appendChild(childRemplaBar)
+    return remplaBar
+}
+
+
 
 
 createCalendar(mocksRemplas)
