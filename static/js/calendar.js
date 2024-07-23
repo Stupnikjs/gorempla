@@ -8,7 +8,11 @@ let mocksRemplas = [
     {
         debut: "2024-07-01",
         fin: "2024-07-07"
-    }
+    }, 
+    {
+        debut: "2024-07-08",
+        fin: "2024-07-14"
+    }, 
 ]
 
 let colors = ["blue", "purple", "gray"]
