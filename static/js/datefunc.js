@@ -15,12 +15,10 @@ function getDateMinusDays(date, minus){
 
 
 function getWeekDay(date) {
-return (date.getDay() + 6) % 7 + 1;
+    return (date.getDay() + 6) % 7 + 1;
 }
 
 function getDayDiff(maj,min){
-    console.log(maj, min)
     let milisecDif = maj.getTime() - min.getTime()
-    console.log(milisecDif)
-    return milisecDif / (1000 * 60 * 60 * 24)
+    return Math.round(milisecDif / (1000 * 60 * 60 * 24))
    }
