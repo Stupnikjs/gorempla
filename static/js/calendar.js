@@ -1,4 +1,4 @@
-de/*
+/*
         pour que le week composant soit ajouté pour la rempla il faut 
         que la fin soit superieure ou egale a la premiere date de la semaine 
         et que le debut soit inferieure ou egale la fin de la semaine  
@@ -32,16 +32,6 @@ function createCalendar(remplas){
 
 
 
-function getMonthDayCount(date){
-    if (date.getMonth() == 11){
-        let MonthDayCount = new Date(date.getFullYear() + 1, 0, 0 ).getDate() 
-        return MonthDayCount
-    } 
-    let MonthDayCount = new Date(date.getFullYear() + 1, date.getMonth() + 1, 0).getDate()
-    return MonthDayCount
-}
-
-
 function buildArr(padNum, monthdayCount, date){
     let padding = new Array(padNum).fill(0)
     let monthArr = new Array(monthdayCount).fill(0).map((el, index) => {return new Date(date.getFullYear(), date.getMonth(), index + 1)})
@@ -67,8 +57,7 @@ function createCalendarDiv(arr, remplas){
                 let sevenDaysAgo = new Date(arr[i].getTime() - (7 * 24 * 60 * 60 * 1000));
                 if ( new Date(remplas[j].fin) >= sevenDaysAgo 
                     && new Date(remplas[j].debut) <= arr[i] ) {
-                    let remplaBar = createRemplaBar(j)
-                    remplaBar.style.gridColumn = getSpanGridColumn(remplas[j].debut, remplas[j].fin, [sevenDaysAgo, arr[i]] )
+                    let remplaBar = createRemplaBar(remplas[j], sevenDaysAgo, arr[i])
                     div.appendChild(remplaBar)
                 }           
             }
@@ -81,8 +70,7 @@ function createCalendarDiv(arr, remplas){
             for (let j=0; j < remplas.length; j++){
                 if (firstDayWeek < new Date(remplas[j].fin) 
                     && new Date(remplas[j].debut) < firstDayWeek  ){
-                let remplaBar = createRemplaBar(j)
-                remplaBar.style.gridColumn = getSpanGridColumn(remplas[j].debut, remplas[j].fin, [firstDayWeek, arr[i]] )
+                let remplaBar = createRemplaBar(remplas[j], firstDayWeek, dayOfWeekLastOfMonth )
                 remplaBar.style.color = colors[j]
                 div.appendChild(remplaBar)
                     }
@@ -111,26 +99,10 @@ function appendDayBar(div){
 
 
 
-function getDateMinusDays(date, minus){
-    return new Date(date.getTime() - (minus * 24 * 60 * 60 * 1000))
-}
 
 
 
-function getWeekDay(date) {
-return (date.getDay() + 6) % 7 + 1;
-}
 
-
-function getSpanGridColumn(debut, fin, weekFirstLast){
-    let debutDate = new Date(debut)
-    let finDate = new Date(fin)
-
-    if (weekFirstLast[0] > debutDate && weekFirstLast[1] < finDate){
-        return "7 span"
-    }
-    return "7 span"
-}
 
 
 function createRemplaBar(rempla, start, end){
@@ -140,11 +112,15 @@ function createRemplaBar(rempla, start, end){
     remplaBar.style.gridTemplateColumns = "repeat(7, 1fr)"
     remplaBar.style.border = "1px solid black"
     remplaBar.style.width = "100%"
+    remplaBar.style.gridColumn = "7 span"
     let childRemplaBar = getChildRemplaBar(rempla, start, end)
     childRemplaBar.style.backgroundColor = "green"
+    childRemplaBar.gridColumn = "7 span"
     remplaBar.appendChild(childRemplaBar)
     return remplaBar
 }
+
+
 
 
 function getChildRemplaBar(rempla, start, end){
@@ -152,8 +128,7 @@ function getChildRemplaBar(rempla, start, end){
     let startGrid = 0
     let endGrid = 0
     console.log(new Date(rempla.start) <=  new Date(start) && new Date(rempla.end) >=  new Date(end))
-    console.log(new Date(rempla.start) <=  new Date(start) && new Date(rempla.end) >=  new Date(end))
-    console.log(new Date(rempla.start) <=  new Date(start) && new Date(rempla.end) >=  new Date(end))
+    console.log(getDayDiff(new Date(rempla.end), new Date(end)))
     // Case rempla out of week boundries
     if ( new Date(rempla.start) <=  new Date(start) && new Date(rempla.end) >=  new Date(end)){
         startGrid = 1
@@ -177,10 +152,7 @@ createCalendar(mocksRemplas)
 
 
 
-function getDayDiff(maj,min){
- let milisecDif = maj.getTime() - min.getTime()
- return milisecDif // (1000 * 60 * 60 * 24)
-}
+
 
 /* 
 Si debut < start et fin < end 
