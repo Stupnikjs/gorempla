@@ -44,18 +44,13 @@ function createCalendarDiv(arr, remplas){
     div.style.display = "grid"
     div.style.gridTemplateColumns = "repeat(7,1fr)"
     for ( let i=0; i < arr.length; i++){
-        if (i==0) {
-            appendDayBar(div)
-        }
-        let span = document.createElement("span")
-        span.textContent = arr[i].getDate()
-        span.style.padding = "1rem"
-        span.style.border = "1px solid black"
+        if (i==0) { appendDayBar(div) }
+        let span = createDaySpan(arr[i])
         div.appendChild(span)
         if ((i+1) % 7 == 0  && i != 0) {
             for (let j=0; j < remplas.length; j++){
                 let sevenDaysAgo = new Date(arr[i].getTime() - (7 * 24 * 60 * 60 * 1000));
-                if ( new Date(remplas[j].fin) >= sevenDaysAgo 
+                if (new Date(remplas[j].fin) >= sevenDaysAgo 
                     && new Date(remplas[j].debut) <= arr[i] ) {
                     let remplaBar = createRemplaBar(remplas[j], sevenDaysAgo, arr[i])
                     div.appendChild(remplaBar)
@@ -66,21 +61,31 @@ function createCalendarDiv(arr, remplas){
         if (i == arr.length - 1  && i != 0){
             let dayOfWeekLastOfMonth = getWeekDay(arr[i])
             let firstDayWeek = getDateMinusDays(arr[i], dayOfWeekLastOfMonth - 1)
-            
             for (let j=0; j < remplas.length; j++){
                 if (firstDayWeek < new Date(remplas[j].fin) 
                     && new Date(remplas[j].debut) < firstDayWeek  ){
-                let remplaBar = createRemplaBar(remplas[j], firstDayWeek, dayOfWeekLastOfMonth )
+                let firstOffset = getDayDiff(firstDayWeek, new Date(remplas[j].debut))
+                let lastOffset = getDayDiff(dayOfWeekLastOfMonth, new Date(remplas[j].fin))
+                let offsets = [firstOffset, lastOffset]
+                let remplaBar = createRemplaBar(remplas[j], offsets)
                 remplaBar.style.color = colors[j]
                 div.appendChild(remplaBar)
                     }
                 }
         }
         }
-        
-    
     return div
 }
+
+
+function createDaySpan(date){
+    let span = document.createElement("span")
+    span.textContent = date.getDate()
+    span.style.padding = "1rem"
+    span.style.border = "1px solid black"
+    return span
+}
+
 
 function appendDayBar(div){
     let days = ["L", "M", "M", "J", "V", "S", "D"]
@@ -105,7 +110,8 @@ function appendDayBar(div){
 
 
 
-function createRemplaBar(rempla, start, end){
+function createRemplaBar(rempla, offsets){
+    console.log(offsets)
     let remplaBar = document.createElement("span")
     remplaBar.style.padding = "1rem"
     remplaBar.style.display = "grid"
@@ -113,7 +119,7 @@ function createRemplaBar(rempla, start, end){
     remplaBar.style.border = "1px solid black"
     remplaBar.style.width = "100%"
     remplaBar.style.gridColumn = "7 span"
-    let childRemplaBar = getChildRemplaBar(rempla, start, end)
+    let childRemplaBar = getChildRemplaBar(rempla, offsets)
     childRemplaBar.style.backgroundColor = "green"
     childRemplaBar.gridColumn = "7 span"
     remplaBar.appendChild(childRemplaBar)
@@ -127,10 +133,12 @@ function getChildRemplaBar(rempla, start, end){
     let childRemplaBar = document.createElement("div")
     let startGrid = 0
     let endGrid = 0
-    console.log(new Date(rempla.start) <=  new Date(start) && new Date(rempla.end) >=  new Date(end))
-    console.log(getDayDiff(new Date(rempla.end), new Date(end)))
+    console.log(start)
+    console.log(rempla.debut)
+
+    console.log(getDayDiff(new Date(rempla.fin), new Date(end)))
     // Case rempla out of week boundries
-    if ( new Date(rempla.start) <=  new Date(start) && new Date(rempla.end) >=  new Date(end)){
+    if ( new Date(rempla.debut) <=  new Date(start) && new Date(rempla.fin) >=  new Date(end)){
         startGrid = 1
         endGrid = 7
     }

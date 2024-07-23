@@ -22,5 +22,5 @@ function getDayDiff(maj,min){
     console.log(maj, min)
     let milisecDif = maj.getTime() - min.getTime()
     console.log(milisecDif)
-    return Math.round(milisecDif / (1000 * 60 * 60 * 24))
+    return milisecDif / (1000 * 60 * 60 * 24)
    }
