@@ -8,11 +8,7 @@ let mocksRemplas = [
     {
         debut: "2024-07-01",
         fin: "2024-07-07"
-    },
-    {
-        debut: "2024-07-05",
-        fin: "2024-07-31"
-    },
+    }
 ]
 
 let colors = ["blue", "purple", "gray"]
@@ -104,7 +100,7 @@ function getChildRemplaBar(rempla, offsets){
     console.log("remlpa debut", rempla.debut)
     // Case rempla out of week boundries
     
-    childRemplaBar.style.gridColumn = `${7 - offsets[1]}/ span`
+    childRemplaBar.style.gridColumn = `span ${7 - offsets[1] - offsets[0]} / ${ 8 - offsets[1]}`  
     // childRemplaBar.textContent = rempla.lieu
     childRemplaBar.style.padding = "1rem"
     return childRemplaBar
@@ -115,16 +111,26 @@ function getChildRemplaBar(rempla, offsets){
 function endOfWeekRemplaRender(currDate, remplas, div){
     
     for (let j=0; j < remplas.length; j++){
-        let sevenDaysAgo = new Date(currDate.getTime() - (7 * 24 * 60 * 60 * 1000));
-        if (new Date(remplas[j].fin) >= sevenDaysAgo 
-            && new Date(remplas[j].debut) <= currDate ) {
-            let offsets = [0,0]
-            let remplaBar = createRemplaBar(remplas[j], offsets, j)
-            div.appendChild(remplaBar)
+        let sixDaysAgo = new Date(currDate.getTime() - (6 * 24 * 60 * 60 * 1000));
+        console.log(sixDaysAgo, currDate)
+        console.log(getDayDiff(currDate, new Date(remplas[j].fin)))
+        let offsets = []
+        if (new Date(remplas[j].debut) <= sixDaysAgo){
+            offsets[0] = 0
+        } else {
+            offsets[0] = getDayDiff(new Date(remplas[j].debut) , sixDaysAgo)
+        }
+        if (new Date(remplas[j].fin) >= currDate){
+            offsets[1] = 0
+        } else {
+            offsets[1] = getDayDiff(currDate, new Date(remplas[j].fin))
+        }
+        console.log(offsets)
+        let remplaBar = createRemplaBar(remplas[j], offsets, j)
+        div.appendChild(remplaBar)
         }           
     }
 
-}
 function endOfMonthRemplaRender(currDate, remplas, div){
         
         let dayOfWeekLastOfMonth = getWeekDay(currDate)
