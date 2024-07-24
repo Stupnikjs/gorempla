@@ -146,7 +146,7 @@ rempla: rempla
 function remplaRender(obj){
 
     for (let j=0; j < obj["remplas"].length; j++){
-        console.log(new Date(obj["remplas"][j].debut) < obj["startWeek"])
+        console.log(new Date(obj["remplas"][j].debut) > obj["startWeek"])
         // rempla before week 
         if ( new Date(obj["remplas"][j].debut) < obj["startWeek"]   && new Date(obj["remplas"][j].fin) < obj["startWeek"] ){
                 console.log(1, j)
