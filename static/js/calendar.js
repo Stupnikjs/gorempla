@@ -81,10 +81,10 @@ function appendDayBar(div){
 
 
 
-function createRemplaBar(rempla, offsets, j){
+function createRemplaBar(rempla, offsets, j, ok){
     let remplaBar = document.createElement("span")
     remplaBar.style.padding = "1rem"
-    remplaBar.style.display = "grid"
+    remplaBar.style.display = ok ? "grid" : "none"
     remplaBar.style.gridTemplateColumns = "repeat(7, 1fr)"
     remplaBar.style.border = "1px solid black"
     remplaBar.style.width = "100%"
@@ -119,7 +119,7 @@ function endOfWeekRemplaRender(currDate, remplas, div){
         console.log(sixDaysAgo, currDate)
         console.log(getDayDiff(currDate, new Date(remplas[j].fin)))
         let offsets = []
-        if (new Date(remplas[j].debut) <= sixDaysAgo){
+        if (new Date(remplas[j].debut) <= sixDaysAgo && new Date(remplas[j].fin) < sixDaysAgo){
             offsets[0] = 0
         } else {
             offsets[0] = getDayDiff(new Date(remplas[j].debut) , sixDaysAgo)
@@ -129,8 +129,17 @@ function endOfWeekRemplaRender(currDate, remplas, div){
         } else {
             offsets[1] = getDayDiff(currDate, new Date(remplas[j].fin))
         }
-        console.log(offsets)
-        let remplaBar = createRemplaBar(remplas[j], offsets, j)
+        
+        
+        if (new Date(remplas[j].debut) < sixDaysAgo && new Date(remplas[j].fin) < sixDaysAgo){
+            let remplaBar = createRemplaBar(remplas[j], offsets, j, false)
+            div.appendChild(remplaBar)
+        }
+        else if (new Date(remplas[j].debut) > currDate){
+            let remplaBar = createRemplaBar(remplas[j], offsets, j, false)
+            div.appendChild(remplaBar)
+        }
+        let remplaBar = createRemplaBar(remplas[j], offsets, j, true)
         div.appendChild(remplaBar)
         }           
     }
@@ -140,16 +149,36 @@ function endOfMonthRemplaRender(currDate, remplas, div){
         let dayOfWeekLastOfMonth = getWeekDay(currDate)
             let firstDayWeek = getDateMinusDays(currDate, dayOfWeekLastOfMonth - 1)
             for (let j=0; j < remplas.length; j++){
-                if (firstDayWeek < new Date(remplas[j].fin) 
-                    && new Date(remplas[j].debut) < firstDayWeek  ){
-                let firstOffset = getDayDiff(firstDayWeek, new Date(remplas[j].debut))
-                let lastOffset = getDayDiff(new Date(remplas[j].fin), currDate)
-                let offsets = [firstOffset, lastOffset]
-                let remplaBar = createRemplaBar(remplas[j], offsets, j)
-                div.appendChild(remplaBar)
+                
+                // rempla before week 
+                if ( new Date(remplas[j].debut) < firstDayWeek  && new Date(remplas[j].fin) < firstDayWeek ){
+                        let offsets = [0, 0]
+                        let remplaBar = createRemplaBar(remplas[j], offsets, j, false)
+                        div.appendChild(remplaBar)
+                } 
+                // rempla after week 
+                else if ( new Date(remplas[j].debut) > currDate){
+                        let offsets = [0, 0]
+                        let remplaBar = createRemplaBar(remplas[j], offsets, j, false)
+                        div.appendChild(remplaBar)
                     }
+                // remlpa full week 
+                else if ( new Date(remplas[j].debut) <= firstDayWeek && new Date(remplas[j].fin) >= currDate ){
+                        let offsets = [0, 0]
+                        let remplaBar = createRemplaBar(remplas[j], offsets, j, true)
+                        div.appendChild(remplaBar)
+                    }
+                // rempla partial week 
+                else if ( new Date(remplas[j].debut) >= firstDayWeek && new Date(remplas[j].fin) <= currDate ){
+                    let firstOffset = getDayDiff(firstDayWeek, new Date(remplas[j].debut))
+                    let lastOffset = getDayDiff(new Date(remplas[j].fin), currDate)
+                    let offsets = [firstOffset, lastOffset]
+                    let remplaBar = createRemplaBar(remplas[j], offsets, j, true)
+                    div.appendChild(remplaBar)
+                
                 }
-}
+            }
+        }
 
 createCalendar(mocksRemplas)
 
