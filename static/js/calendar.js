@@ -35,7 +35,7 @@ function createCalendar(remplas){
 function buildArr(padNum, monthdayCount, date){
     let padding = new Array(padNum).fill(0)
     let monthArr = new Array(monthdayCount).fill(0).map((el, index) => {return new Date(date.getFullYear(), date.getMonth(), index + 1)})
-
+    // checker les remplas si un début est égale //a la date 
     return monthArr
 }
 
