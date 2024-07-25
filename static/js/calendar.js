@@ -47,8 +47,11 @@ function buildArr(padNum, monthdayCount, date){
          
          if (New Date(remplas[i].debut) == el) {
         curr.push(remplas[i])
-        obj.remplas.push(remplas[i]
+        obj.remplas.push(remplas[i])
 
+} if (New Date(rempla[i].fin) == el) {
+       curr = removeRempla(curr, rempla[i])
+       obj.remplas = remove
 }
 
  }
