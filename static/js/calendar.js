@@ -36,6 +36,8 @@ function buildArr(padNum, monthdayCount, date){
     let padding = new Array(padNum).fill(0)
     let monthArr = new Array(monthdayCount).fill(0).map((el, index) => {return new Date(date.getFullYear(), date.getMonth(), index + 1)})
 
+    // pass the remplas to delete on next iter in obj.remplas
+    // maybe some hashing func 
     todelete = []
     for (let j=0; j < monthArr.length; j++){
     let obj = {
@@ -45,15 +47,15 @@ function buildArr(padNum, monthdayCount, date){
    }
     
     for (let i=0, i < remplas.length; i++){
-         
+         if (todelete.length > 1) {
+       obj.remplas = removeRempla(obj.rempla, todelete)
+       todelete = []
+         }
          if (New Date(remplas[i].debut) == monthArr[j]) {
-        curr.push(remplas[i])
-        obj.remplas.push(remplas[i])
+           obj.remplas.push(remplas[i])
 
 } if (New Date(rempla[i].fin) == monthArr[j]) {
-       todelete = removeRempla(curr, rempla[i])
-       
-       obj.remplas = removeRempla(obj.rempla, rempla[i])
+       todelete.push(remplas[i])
 }
 
  }
