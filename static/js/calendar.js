@@ -7,11 +7,17 @@
 let mocksRemplas = [
     {
         debut: "2024-07-01",
-        fin: "2024-07-31"
+        fin: "2024-07-31", 
+        lieu : "la rochelle",
+        logiciel : "maxvignt",
+        temps_trajet : 20,
     }, 
     {
         debut: "2024-07-05",
-        fin: "2024-07-14"
+        fin: "2024-07-14",
+        lieu : "marly gaumont",
+        logiciel : "maximed",
+        temps_trajet : 20,
     }, 
 ]
 
@@ -23,7 +29,7 @@ function createCalendar(remplas){
     let firstOfMonth = getWeekDay(new Date(today.getFullYear(), today.getMonth(), 1))
     let lastOfMonth = getMonthDayCount(today)
     let paddingNum = firstOfMonth - 1
-    let arr = buildArr(paddingNum, lastOfMonth, today)
+    let arr = buildArr(paddingNum, lastOfMonth, today, remplas)
     let div = createCalendarDiv(arr, remplas)
     container.appendChild(div)
 
@@ -32,34 +38,43 @@ function createCalendar(remplas){
 
 
 
-function buildArr(padNum, monthdayCount, date){
+function buildArr(padNum, monthdayCount, date, remplas){
     let padding = new Array(padNum).fill(0)
     let monthArr = new Array(monthdayCount).fill(0).map((el, index) => {return new Date(date.getFullYear(), date.getMonth(), index + 1)})
 
     // pass the remplas to delete on next iter in obj.remplas
     // maybe some hashing func 
-    todelete = []
-    newArr = []
-    for (let j=0; j < monthArr.length; j++){
-    let obj = {
-     date : monthArr[j],
-     remplas : []
-   }
     
-     for (let i=0, i < remplas.length; i++){
-        if (todelete.length > 1) {
-           obj.remplas = removeRempla(obj.rempla, todelete)
-           todelete = []
-         }
-        if (New Date(remplas[i].debut) == monthArr[j]) {obj.remplas.push(remplas[i])}       
-        if (New Date(rempla[i].fin) == monthArr[j]) { todelete.push(remplas[i])}
+    newArr = []
+    let rempObj = {}
 
- }
+    for (let i=0; i < monthArr.length; i++){ 
+        let obj = {
+            date : monthArr[i]
+        }  
+        for (let j=0; j < remplas.length; j++){
+            let hash = remplaHash(remplas[j])
+            if (sameDate(new Date(remplas[j].debut), monthArr[i])){
+                rempObj[hash] = true
+                obj[hash] = true 
+                
+            }
+            if (sameDate(new Date(remplas[j].fin), monthArr[i])) {
+                rempObj[hash] = false 
+                obj[hash] = true 
+                continue
+            } 
+            else if (!rempObj[hash]){
+                obj[hash] = false
+            }
+            else if (rempObj[hash]){
+                obj[hash] = true
+            }
+        }
     newArr.push(obj)
-
-}
-   
-    return newArr
+    }
+    console.log(newArr)
+  return newArr
 }
 
 function createCalendarDiv(arr, remplas){
@@ -68,114 +83,92 @@ function createCalendarDiv(arr, remplas){
     div.id = "calendarDiv"
     div.style.display = "grid"
     div.style.gridTemplateColumns = "repeat(7,1fr)"
-    
+    let newArr = []
     // iteration par semaine 
     n = 7
-    while (arr.length - i >= n){
-        if (i==0) { appendDayBar(div) }
-        
-        let span = createDaySpans(div, arr.slice(i,i+n))
-        
-        if (arr[i].remplas.length > 0){
-              for ( let remp of remplas){
-           createRemplaBar(div)
-
-
-           }
-            }
+    appendDayBar(div)
+    for (let i= 0; i < arr.length; i+= n){
+        let subArr = arr.slice(i, i+n)
+        if (arr.length < i+n ){
+            n = arr.length - i
         }
-        if arr.length - i < 7 {
-          n = arr.length - i
-       }
-       i += n
+        newArr.push(subArr)
+    }
+    for (let j= 0; j < newArr.length; j++){
+        weekDiv = createWeekDiv(newArr[j], remplas)
+        div.appendChild(weekDiv)
+    } 
+    div.style.minHeight = "90vh"
+    return div
+  }
 
+
+
+function createWeekDiv(arr, remplas){
+    let div = document.createElement("div")
+    let remplasArr = remplas.map(el => { return {
+        rempla: el,
+        id: remplaHash(el)
+    }})
+    let hashObj = {}
+    for (obj of arr){
+        let span = document.createElement("span")
+        span.textContent = obj.date.getDate()
+        span.style.padding = "1rem"
+        span.style.border = "1px solid black"
+        span.style.backgroundColor = "yellow"
+        for (hash of  Object.keys(obj)){
+            if (hash != "date"){
+                if (!Object.keys(hashObj).includes(hash)){
+                    hashObj[hash] = [obj[hash]]
+                } else {
+                    hashObj[hash].push(obj[hash])
+                }
+            }
+            
+        }
+        div.appendChild(span)
+
+    }
+
+    div.style.display = "grid"
+    div.style.gridTemplateColumns = "repeat(7, 1fr)"
+    div.style.gridColumn = " 1 / -1"
+    for (arr of Object.entries(hashObj)){
+    
+        let bar = barFromBoolArr(arr)
+        div.appendChild(bar)
+    }
     return div
 }
 
 
-function createDaySpan(date){
-    let span = document.createElement("span")
-    span.textContent = date.getDate()
-    span.style.padding = "1rem"
-    span.style.border = "1px solid black"
-    return span
+function remplaHash(rempla){
+    
+    let debut = rempla.debut.split("").map(e => {return e.charCodeAt()})
+    let fin = rempla.fin.split("").map(e => {return e.charCodeAt()})
+    let lieu = rempla.lieu.split("").map(e => {return e.charCodeAt()})
+    let logiciel = rempla.lieu.split("").map(e => {return e.charCodeAt()})
+
+    let add = debut.reduce((curr, prev) => curr + ( 100 * prev )) + fin.reduce((curr, prev) => curr + prev) + lieu.reduce((curr, prev) => ( 10000 * curr + 1000 * prev )) + logiciel.reduce((curr, prev) => curr + prev)
+ 
+    return add % 100000
 }
 
 
 
-function appendDayBar(div){
-    let days = ["L", "M", "M", "J", "V", "S", "D"]
-
-    for (let i=0; i < days.length; i++){
-        let span = document.createElement("span")
-        span.textContent = days[i]
-        span.style.padding = "1rem"
-        span.style.border = "1px solid black"
-        span.style.backgroundColor = "yellow"
-        div.appendChild(span)
+function removeRempla(arr, todelete){
+    let newArr = arr.map((el,i) => {
+    for (let j=0; j < todelete.length; j++){
+        if (remplaEquals(el, todelete[j])){return null }
     }
-}
-
-
-
-function createRemplaBar(rempla, offsets, j, ok){
-    
-    let remplaBar = document.createElement("span")
-    remplaBar.style.padding = "1rem"
-    remplaBar.style.display = ok ? "grid" : "none"
-    remplaBar.style.gridTemplateColumns = "repeat(7, 1fr)"
-    remplaBar.style.border = "1px solid black"
-    remplaBar.style.width = "100%"
-    remplaBar.style.gridColumn = "7 span"
-    let childRemplaBar = getChildRemplaBar(rempla, offsets)
-    childRemplaBar.style.backgroundColor = colors[j]
-    remplaBar.appendChild(childRemplaBar)
-    return remplaBar
-}
-
-
-
-
-function getChildRemplaBar(rempla, offsets){
-    let childRemplaBar = document.createElement("div")
-
-    // Case rempla out of week boundries
-    
-    childRemplaBar.style.gridColumn = `span ${7 - offsets[1] - offsets[0]} / ${ 8 - offsets[1]}`  
-    // childRemplaBar.textContent = rempla.lieu
-    childRemplaBar.style.padding = "1rem"
-    return childRemplaBar
-}
-
-
-
-
-
-func removeRempla(arr, todelete){
-  let newArr = arr.map((el,i) => {
-  for (let j=0; j < todelete.length; j++){
-     if (remplaEquals(el, todelete[j])){return null }
-  }
-  return el
-})
- 
+    return el
+    })
   newArr = arr.filter(el => el !== null)
- 
   return newArr
-      
-
-
-
+    
 }
 
-
-
-
-}
-
-
-
-}
 
 
 function remplaEquals(r1,r2){
@@ -195,6 +188,17 @@ return true
 return false 
 
 }
+
+
+function sameDate(d1, d2){
+    let d = d1.getDate() == d2.getDate()
+    let m = d1.getMonth() == d2.getMonth()
+    let y = d1.getFullYear() == d2.getFullYear()
+
+    if (d && m && y) return true 
+    else return false 
+}
+
 
 
 createCalendar(mocksRemplas)
