@@ -68,11 +68,12 @@ function createCalendarDiv(arr, remplas){
     div.id = "calendarDiv"
     div.style.display = "grid"
     div.style.gridTemplateColumns = "repeat(7,1fr)"
-    for ( let i=0; i < arr.length; i++){
+    for (let i=0; i < arr.length; i++){
         if (i==0) { appendDayBar(div) }
-        let span = createDaySpan(arr[i])
+        let span = createDaySpan(arr[i].date)
         div.appendChild(span)
-            
+        if (arr[i].remplas.length > 0)
+           
             }
         }
     return div
@@ -194,3 +195,5 @@ Si debut < start et fin < end
 la difference end - fin == espace après childRemplaBar
 
 */
+
+// iteration par semaine 
