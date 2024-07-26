@@ -188,16 +188,17 @@ function remplaRender(obj){
 
 
 func removeRempla(arr, todelete){
-  let newArr = are.map((el,i) => {
-  let indexes = []
+  let newArr = arr.map((el,i) => {
   for (let j=0; j < todelete.length; j++){
      if (remplaEquals(el, todelete[j])){
-     indexes.push(i)
-     break
+       return null 
      }
   }
-  return indexes
+  return el
   
+  newArr = arr.filter(el => el !== null)
+ 
+  return newArr
    
 
 })
