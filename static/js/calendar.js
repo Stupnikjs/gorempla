@@ -36,13 +36,14 @@ function buildArr(padNum, monthdayCount, date){
     let padding = new Array(padNum).fill(0)
     let monthArr = new Array(monthdayCount).fill(0).map((el, index) => {return new Date(date.getFullYear(), date.getMonth(), index + 1)})
 
-    monthArr = monthArr.map((el,i) => {
+    curr = []
+    for (let j=0; j < monthArr.length; j++){
     let obj = {
-     date : el,
+     date : monthArr[j],
      remplas : []
 
    }
-    curr = []
+    
     for (let i=0, i < remplas.length; i++){
          
          if (New Date(remplas[i].debut) == el) {
