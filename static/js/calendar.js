@@ -70,14 +70,21 @@ function createCalendarDiv(arr, remplas){
     div.style.gridTemplateColumns = "repeat(7,1fr)"
     
     // iteration par semaine 
-    while i < arr.length; i+= 7){
+    n = 7
+    while (arr.length - i >= n){
         if (i==0) { appendDayBar(div) }
-        let span = createDaySpan(arr[i].date)
-        div.appendChild(span)
+        
+        let span = createDaySpans(arr.slice(i,i+n))
+        
         if (arr[i].remplas.length > 0){
            
             }
         }
+        if arr.length - i < 7 {
+          n = arr.length - i
+       }
+       i += n
+
     return div
 }
 
