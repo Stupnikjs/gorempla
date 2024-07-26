@@ -212,6 +212,25 @@ func removeRempla(arr, todelete){
 }
 
 
+function remplaEquals(r1,r2){
+ 
+let c1 = r1.debut == r2.debut
+let c2 = r1.debut == r2.debut
+let c3 
+let c4 
+let c5 
+
+
+if (c1 && c2 && c3 && c4 && c5 ) {
+
+return true 
+} 
+
+return false 
+
+}
+
+
 createCalendar(mocksRemplas)
 
 
