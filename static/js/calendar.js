@@ -44,20 +44,15 @@ function buildArr(padNum, monthdayCount, date){
     let obj = {
      date : monthArr[j],
      remplas : []
-
    }
     
-    for (let i=0, i < remplas.length; i++){
-         if (todelete.length > 1) {
-       obj.remplas = removeRempla(obj.rempla, todelete)
-       todelete = []
+     for (let i=0, i < remplas.length; i++){
+        if (todelete.length > 1) {
+           obj.remplas = removeRempla(obj.rempla, todelete)
+           todelete = []
          }
-         if (New Date(remplas[i].debut) == monthArr[j]) {
-           obj.remplas.push(remplas[i])
-
-} if (New Date(rempla[i].fin) == monthArr[j]) {
-       todelete.push(remplas[i])
-}
+        if (New Date(remplas[i].debut) == monthArr[j]) {obj.remplas.push(remplas[i])}       
+        if (New Date(rempla[i].fin) == monthArr[j]) { todelete.push(remplas[i])}
 
  }
     newArr.push(obj)
@@ -77,27 +72,6 @@ function createCalendarDiv(arr, remplas){
         if (i==0) { appendDayBar(div) }
         let span = createDaySpan(arr[i])
         div.appendChild(span)
-        if ((i+1) % 7 == 0  && i != 0) { 
-            console.log(i, "triggered")
-            let obj = {
-                "startWeek": new Date(arr[i].getTime() - (6 * 24 * 60 * 60 * 1000)),
-                "endWeek": arr[i], 
-                "div": div,
-                "remplas": remplas
-            }
-            console.log(obj)
-            remplaRender(obj) 
-        }
-        if (i == arr.length - 1  && i != 0){
-            let lastDayWeek = getWeekDay(arr[i])
-            let firstDayWeek = getDateMinusDays(arr[i], lastDayWeek - 1)
-            let obj = {
-                "startWeek": firstDayWeek,
-                "endWeek": arr[i], 
-                "div": div,
-                "remplas": remplas
-            }
-            remplaRender(obj) 
             
             }
         }
