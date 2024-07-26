@@ -199,6 +199,40 @@ function sameDate(d1, d2){
     else return false 
 }
 
+function barFromBoolArr(arr){
+    let first = -1 
+    let last = arr.length
+    for (let i= 0 ; i < arr.length; i++){
+        if (arr[i] && first == -1){
+            first = i
+            continue
+        } 
+        if (first != -1 && !arr[i]){
+            last = i
+        }     
+    }
+    if (first == -1 && last == arr.length){
+        let empty = document.createElement("div")
+        return empty
+    }
+    if (first != -1 && last == arr.length){
+        let full = document.createElement("div")
+        full.style.gridColumn = `span ${last - first}/ 8 `  
+        full.style.padding = "1rem"
+        full.style.backgroundColor = "blue"
+        console.log(last, first)
+        return full
+    }
+    if (first != -1 && last != arr.length){
+        let full = document.createElement("div")
+        full.style.gridColumn = `span ${last - first}/ 8 `  
+        full.style.padding = "1rem"
+        full.style.backgroundColor = "gray"
+        return full
+    }
+
+
+}
 
 
 createCalendar(mocksRemplas)
