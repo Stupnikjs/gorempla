@@ -135,75 +135,20 @@ function getChildRemplaBar(rempla, offsets){
 
 
 
-/*  
-{
-"div": div, 
-endWeek: , 
-startWeek: , 
-rempla: rempla
-}
-
-*/
-
-function remplaRender(obj){
-
-    for (let j=0; j < obj["remplas"].length; j++){
-        console.log(new Date(obj["remplas"][j].debut) > obj["startWeek"])
-        // rempla before week 
-        if ( new Date(obj["remplas"][j].debut) < obj["startWeek"]   && new Date(obj["remplas"][j].fin) < obj["startWeek"] ){
-                console.log(1, j)
-                console.log(obj)
-                let offsets = [0, 0]
-                let remplaBar = createRemplaBar(obj["remplas"][j], offsets, j, false)
-                obj["div"].appendChild(remplaBar)
-        } 
-        // rempla after week 
-            else if ( new Date(obj["remplas"][j].debut) > obj["endWeek"]){
-            
-            console.log(obj)
-            console.log(2, j)
-                let offsets = [0, 0]
-                let remplaBar = createRemplaBar(obj["remplas"][j], offsets, j, false)
-                obj["div"].appendChild(remplaBar)
-            }
-        // remlpa full week 
-        else if ( new Date(obj["remplas"][j].debut) < obj["startWeek"] && new Date(obj["remplas"][j].fin) > obj["endWeek"] ){
-            console.log(3, j)
-                let offsets = [0, 0]
-                let remplaBar = createRemplaBar(obj["remplas"][j], offsets, j, true)
-                obj["div"].appendChild(remplaBar)
-            }
-        // rempla partial week 
-        else if ( new Date(obj["remplas"][j].debut) > obj["startWeek"] && new Date(obj["remplas"][j].fin) < obj["endWeek"]){
-            console.log(4)
-            let firstOffset = getDayDiff(obj["startWeek"], new Date(obj["remplas"][j].debut))
-            let lastOffset = getDayDiff(new Date(obj["remplas"][j].fin), obj["endWeek"])
-            let offsets = [firstOffset, lastOffset]
-            let remplaBar = createRemplaBar(obj["remplas"][j], offsets, j, true)
-            obj["div"].appendChild(remplaBar)
-        
-        }
-    }
-}
 
 
 func removeRempla(arr, todelete){
   let newArr = arr.map((el,i) => {
   for (let j=0; j < todelete.length; j++){
-     if (remplaEquals(el, todelete[j])){
-       return null 
-     }
+     if (remplaEquals(el, todelete[j])){return null }
   }
   return el
-  
+})
+ 
   newArr = arr.filter(el => el !== null)
  
   return newArr
-   
-
-})
- 
-     
+      
 
 
 
@@ -222,10 +167,10 @@ func removeRempla(arr, todelete){
 function remplaEquals(r1,r2){
  
 let c1 = r1.debut == r2.debut
-let c2 = r1.debut == r2.debut
-let c3 
-let c4 
-let c5 
+let c2 = r1.fin == r2.fin
+let c3 = r1.lieu == r2.lieu
+let c4 = r1.logiciel == r2.logiciel
+let c5 = r1.temps_trajet == r2.temps_trajet
 
 
 if (c1 && c2 && c3 && c4 && c5 ) {
