@@ -196,6 +196,7 @@ func removeRempla(arr, todelete){
       newArr.push(todelete[j])
 
    }
+   return newArr
 
 
 
