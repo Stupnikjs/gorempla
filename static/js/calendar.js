@@ -39,6 +39,7 @@ function buildArr(padNum, monthdayCount, date){
     // pass the remplas to delete on next iter in obj.remplas
     // maybe some hashing func 
     todelete = []
+    newArr = []
     for (let j=0; j < monthArr.length; j++){
     let obj = {
      date : monthArr[j],
@@ -59,11 +60,11 @@ function buildArr(padNum, monthdayCount, date){
 }
 
  }
-    return 
+    newArr.push(obj)
 
 }
    
-    return monthArr
+    return newArr
 }
 
 function createCalendarDiv(arr, remplas){
