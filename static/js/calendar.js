@@ -187,6 +187,30 @@ function remplaRender(obj){
 }
 
 
+func removeRempla(arr, todelete){
+  let newArr= []
+  for (let i=0; i < arr.length; i++){
+     for (let j=0; j < todelete.length; j++){
+       if (!remplaEquals(arr[i],todelete[j]){
+   if(!newArr.includes(todelete[j]){
+      newArr.push(todelete[j])
+
+   }
+
+
+
+}
+
+
+
+
+}
+
+
+
+}
+
+
 createCalendar(mocksRemplas)
 
 
