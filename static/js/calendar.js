@@ -74,10 +74,14 @@ function createCalendarDiv(arr, remplas){
     while (arr.length - i >= n){
         if (i==0) { appendDayBar(div) }
         
-        let span = createDaySpans(arr.slice(i,i+n))
+        let span = createDaySpans(div, arr.slice(i,i+n))
         
         if (arr[i].remplas.length > 0){
-           
+              for ( let remp of remplas){
+           createRemplaBar(div)
+
+
+           }
             }
         }
         if arr.length - i < 7 {
