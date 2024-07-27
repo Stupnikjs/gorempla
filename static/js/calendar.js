@@ -136,7 +136,7 @@ function createWeekDiv(arr, remplas){
     div.style.gridColumn = " 1 / -1"
     for (arr of Object.entries(hashObj)){
     
-        let bar = barFromBoolArr(arr)
+        let bar = barFromBoolArr(arr[1])
         div.appendChild(bar)
     }
     return div
@@ -200,38 +200,40 @@ function sameDate(d1, d2){
 }
 
 function barFromBoolArr(arr){
-    let first = -1 
-    let last = arr.length
-    for (let i= 0 ; i < arr.length; i++){
-        if (arr[i] && first == -1){
-            first = i
-            continue
-        } 
-        if (first != -1 && !arr[i]){
-            last = i
-        }     
-    }
-    if (first == -1 && last == arr.length){
-        let empty = document.createElement("div")
-        return empty
-    }
-    if (first != -1 && last == arr.length){
-        let full = document.createElement("div")
-        full.style.gridColumn = `span ${last - first}/ 8 `  
-        full.style.padding = "1rem"
-        full.style.backgroundColor = "blue"
-        console.log(last, first)
-        return full
-    }
-    if (first != -1 && last != arr.length){
-        let full = document.createElement("div")
-        full.style.gridColumn = `span ${last - first}/ 8 `  
-        full.style.padding = "1rem"
-        full.style.backgroundColor = "gray"
-        return full
-    }
+    console.log(arr)
+    let coord = coordinateFromBoolArr(arr)
+    console.log(coord)
+    let div = document.createElement("div")
+    div.style.gridColumn = `span ${coord[0]} / ${coord[1]}`
+    div.style.padding = "1rem"
+    div.style.backgroundColor = "green"
+    return div 
+
+}
 
 
+function coordinateFromBoolArr(boolArr){
+    
+    let first = -1
+    let last = boolArr.length 
+    curr = false 
+    for (let i=0 ; i < boolArr.length; i++){
+        
+        if (curr = true && !boolArr[i]){
+            last = i 
+            curr = false 
+        }
+        if (boolArr[i] && !curr){
+            curr = true
+            first = i 
+        }
+        
+    }
+    if (first == -1 && last == boolArr.length){
+        return [0, 0]
+    } else {
+        return [first, last]
+    }
 }
 
 
