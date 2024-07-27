@@ -19,13 +19,12 @@ let mocksRemplas = [
 
 let colors = ["blue", "purple", "gray", "lightgreen" , "lightblue" ]
 
-function createCalendar(remplas){
+function createCalendar(remplas, day){
     let container = document.getElementById("containerDiv")
-    let today = new Date()
-    let firstOfMonth = getWeekDay(new Date(today.getFullYear(), today.getMonth(), 1))
-    let lastOfMonth = getMonthDayCount(today)
+    let firstOfMonth = getWeekDay(new Date(day.getFullYear(), day.getMonth(), 1))
+    let lastOfMonth = getMonthDayCount(day)
     let paddingNum = firstOfMonth - 1
-    let arr = buildArr(paddingNum, lastOfMonth, today, remplas)
+    let arr = buildArr(paddingNum, lastOfMonth, day, remplas)
     let div = createCalendarDiv(arr, remplas)
     container.appendChild(div)
 
