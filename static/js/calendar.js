@@ -241,16 +241,12 @@ function coordinateFromBoolArr(boolArr){
 }
 
 
-createCalendar(mocksRemplas)
 
-
-
-
-
-/* 
-Si debut < start et fin < end 
-la difference end - fin == espace après childRemplaBar
-
+/* let today = new Date()
+* onclick + increment today and pass  *createCalendar
 */
+createCalendar(mocksRemplas, today)
 
-// iteration par semaine 
+
+
+
