@@ -15,6 +15,13 @@ let mocksRemplas = [
         logiciel : "maximed",
         temps_trajet : 20,
     }, 
+    {
+        debut: "2024-07-22",
+        fin: "2024-07-30",
+        lieu : "bordeaux",
+        logiciel : "medilogic",
+        temps_trajet : 120,
+    }, 
 ]
 
 let colors = ["blue", "purple", "gray", "lightgreen" , "lightblue" ]
