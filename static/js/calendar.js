@@ -1,8 +1,4 @@
-/*
-        pour que le week composant soit ajouté pour la rempla il faut 
-        que la fin soit superieure ou egale a la premiere date de la semaine 
-        et que le debut soit inferieure ou egale la fin de la semaine  
-*/
+// parse rempla from some HTML data elemenr
 
 let mocksRemplas = [
     {
@@ -21,7 +17,7 @@ let mocksRemplas = [
     }, 
 ]
 
-let colors = ["blue", "purple", "gray"]
+let colors = ["blue", "purple", "gray", "lightgreen" , "lightblue" ]
 
 function createCalendar(remplas){
     let container = document.getElementById("containerDiv")
