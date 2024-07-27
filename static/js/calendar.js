@@ -143,8 +143,9 @@ function createCalendarDiv(arr, remplas){
 
 
 /*       week HTML element creater    */
-function createWeekDiv(arr){
+function createWeekDiv(arr, remplas){
     let div = document.createElement("div")
+    // build obj with hash matching remplas 
     let hashObj = {}
     for (obj of arr){
         let span = document.createElement("span")
