@@ -1,4 +1,4 @@
-// parse rempla from some HTML data elemenr
+de// parse rempla from some HTML data elemenr
 
 let mocksRemplas = [
     {
@@ -248,9 +248,12 @@ function coordinateFromBoolArr(boolArr){
 
 
 
-/* let today = new Date()
+/* 
 * onclick + increment today and pass  *createCalendar
 */
+
+let today = new Date()
+
 createCalendar(mocksRemplas, today)
 
 
