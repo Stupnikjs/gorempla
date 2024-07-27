@@ -19,6 +19,8 @@ let mocksRemplas = [
 
 let colors = ["blue", "purple", "gray", "lightgreen" , "lightblue" ]
 
+
+/*     parent function     */
 function createCalendar(remplas, day){
     let container = document.getElementById("containerDiv")
     let firstOfMonth = getWeekDay(new Date(day.getFullYear(), day.getMonth(), 1))
@@ -32,7 +34,7 @@ function createCalendar(remplas, day){
 
 
 
-
+/*    array builder with date remplas hashes */
 function buildArr(padNum, monthdayCount, date, remplas){
     let padding = new Array(padNum).fill(0)
     let monthArr = new Array(monthdayCount).fill(0).map((el, index) => {return new Date(date.getFullYear(), date.getMonth(), index + 1)})
@@ -72,6 +74,8 @@ function buildArr(padNum, monthdayCount, date, remplas){
   return newArr
 }
 
+
+/* HTML calendar element creator from array */
 function createCalendarDiv(arr, remplas){
     
     let div = document.createElement("div")
@@ -98,7 +102,7 @@ function createCalendarDiv(arr, remplas){
   }
 
 
-
+/*       week HTML element creater    */
 function createWeekDiv(arr, remplas){
     let div = document.createElement("div")
     let remplasArr = remplas.map(el => { return {
@@ -137,7 +141,7 @@ function createWeekDiv(arr, remplas){
     return div
 }
 
-
+/* rempla hash function can be improved  */ 
 function remplaHash(rempla){
     
     let debut = rempla.debut.split("").map(e => {return e.charCodeAt()})
