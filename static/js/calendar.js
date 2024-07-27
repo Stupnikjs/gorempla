@@ -201,6 +201,7 @@ function sameDate(d1, d2){
 
 function barFromBoolArr(arr, color){
     let coord = coordinateFromBoolArr(arr)
+    console.log(coord, color)
     let div = document.createElement("div")
     if (arr[0] == 0 && arr[1] == 0) return div
     console.log(`span ${coord[1] - coord[0] } / ${coord[1]+1}`,arr)
