@@ -4,7 +4,8 @@ function createDaySpans(arr){
     for (let i=0; i < arr.length; i++){
     let span = document.createElement("span")
     span.textContent = date.getDate()
-    span.style.padding = "1rem"
+    span.style.padding = ".5rem"
+    span.style.textAlign = "center"
     span.style.border = "1px solid black"
     div.appendChild(span)
     }
@@ -19,9 +20,10 @@ function appendDayBar(div){
     for (let i=0; i < days.length; i++){
         let span = document.createElement("span")
         span.textContent = days[i]
-        span.style.padding = "1rem"
+        span.style.padding = ".5rem"
+        span.style.textAlign = "center"
         span.style.border = "1px solid black"
-        span.style.backgroundColor = "yellow"
+        span.style.backgroundColor = "lightgray"
         div.appendChild(span)
     }
 }
@@ -31,7 +33,7 @@ function appendDayBar(div){
 function createRemplaBar(rempla){
     
     let remplaBar = document.createElement("span")
-    remplaBar.style.padding = "1rem"
+    remplaBar.style.padding = ".5rem"
     remplaBar.style.display = ok ? "grid" : "none"
     remplaBar.style.gridTemplateColumns = "repeat(7, 1fr)"
     remplaBar.style.border = "1px solid black"

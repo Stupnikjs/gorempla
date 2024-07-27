@@ -1,4 +1,4 @@
-de// parse rempla from some HTML data elemenr
+// parse rempla from some HTML data elemenr
 
 let mocksRemplas = [
     {
@@ -43,9 +43,9 @@ function createCalendar(remplas, day){
 
 /*    array builder with date remplas hashes */
 function buildArr(padNum, monthdayCount, date, remplas){
-    let padding = new Array(padNum).fill(0)
+    let padding = new Array(padNum).fill(new Date(0, 0, 0))
     let monthArr = new Array(monthdayCount).fill(0).map((el, index) => {return new Date(date.getFullYear(), date.getMonth(), index + 1)})
-
+    monthArr = padding.concat(padding)
     // pass the remplas to delete on next iter in obj.remplas
     // maybe some hashing func 
     
@@ -77,7 +77,6 @@ function buildArr(padNum, monthdayCount, date, remplas){
         }
     newArr.push(obj)
     }
-    console.log(newArr)
   return newArr
 }
 
@@ -107,6 +106,8 @@ function createCalendarDiv(arr, remplas){
     div.style.minHeight = "90vh"
     return div
   }
+
+
 
 
 /*       week HTML element creater    */
@@ -141,7 +142,6 @@ function createWeekDiv(arr, remplas){
     div.style.gridTemplateColumns = "repeat(7, 1fr)"
     div.style.gridColumn = " 1 / -1"
     for (let i = 0; i < Object.entries(hashObj).length; i++){
-    
         let bar = barFromBoolArr(Object.entries(hashObj)[i][1], colors[i])
         div.appendChild(bar)
     }
@@ -150,14 +150,12 @@ function createWeekDiv(arr, remplas){
 
 /* rempla hash function can be improved  */ 
 function remplaHash(rempla){
-    
     let debut = rempla.debut.split("").map(e => {return e.charCodeAt()})
     let fin = rempla.fin.split("").map(e => {return e.charCodeAt()})
     let lieu = rempla.lieu.split("").map(e => {return e.charCodeAt()})
     let logiciel = rempla.lieu.split("").map(e => {return e.charCodeAt()})
-
     let add = debut.reduce((curr, prev) => curr + ( 100 * prev )) + fin.reduce((curr, prev) => curr + prev) + lieu.reduce((curr, prev) => ( 10000 * curr + 1000 * prev )) + logiciel.reduce((curr, prev) => curr + prev)
- 
+
     return add % 100000
 }
 
@@ -209,7 +207,7 @@ function barFromBoolArr(arr, color){
     let coord = coordinateFromBoolArr(arr)
     console.log(coord, color)
     let div = document.createElement("div")
-    if (arr[0] == 0 && arr[1] == 0) return div
+    if (coord[0] == 0 && coord[1] == 0) return div
     console.log(`span ${coord[1] - coord[0] } / ${coord[1]+1}`,arr)
     div.style.gridColumn = `span ${coord[1] - coord[0] } / ${coord[1]+1}`
     div.style.padding = "1rem"
@@ -253,8 +251,24 @@ function coordinateFromBoolArr(boolArr){
 */
 
 let today = new Date()
-
 createCalendar(mocksRemplas, today)
+
+let plusBtn = document.querySelector("#plusBtn")
+plusBtn.addEventListener("click", (e) => {
+    let old = document.querySelector("#calendarDiv")
+    old.remove()
+    if (today.getMonth() != 11){
+    today = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate())
+    
+    createCalendar(mocksRemplas, today)
+    } else {
+        today = new Date(today.getFullYear() + 1, 0, today.getDate())
+        createCalendar(mocksRemplas, today)
+    }
+    
+    })
+
+
 
 
 
