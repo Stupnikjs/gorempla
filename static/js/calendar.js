@@ -60,7 +60,6 @@ function buildArr(padNum, monthdayCount, date, remplas){
     let rempObj = {}
 
     for (let i=0; i < monthArr.length; i++){ 
-        console.log(sameDate(monthArr[i], new Date(0,0,0)))
         let obj = {
             date : monthArr[i]
         }  
