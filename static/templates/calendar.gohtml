@@ -2,15 +2,7 @@
 
 {{define "content"}}
     <section class="accueil-section">
-        <button hx-post="/api/calendar" 
-        > - </button>
-        <button 
-        month="{{ .Data.Date.month }}"
-        year="{{ .Data.Date.year }}"
-        id="plusbtn"
-        hx-post="/api/calendar" 
-        hx-trigger="click"
-        > + </button>
+        <button id="plusBtn"> + </button>
         <div id="containerDiv"> 
             
         </div>
