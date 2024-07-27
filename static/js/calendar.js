@@ -134,9 +134,9 @@ function createWeekDiv(arr, remplas){
     div.style.display = "grid"
     div.style.gridTemplateColumns = "repeat(7, 1fr)"
     div.style.gridColumn = " 1 / -1"
-    for (arr of Object.entries(hashObj)){
+    for (let i = 0; i < Object.entries(hashObj).length; i++){
     
-        let bar = barFromBoolArr(arr[1])
+        let bar = barFromBoolArr(Object.entries(hashObj)[i][1], colors[i])
         div.appendChild(bar)
     }
     return div
@@ -199,14 +199,15 @@ function sameDate(d1, d2){
     else return false 
 }
 
-function barFromBoolArr(arr){
-    console.log(arr)
+function barFromBoolArr(arr, color){
     let coord = coordinateFromBoolArr(arr)
-    console.log(coord)
     let div = document.createElement("div")
-    div.style.gridColumn = `span ${coord[0]} / ${coord[1]}`
+    if (arr[0] == 0 && arr[1] == 0) return div
+    console.log(`span ${coord[1] - coord[0] } / ${coord[1]+1}`,arr)
+    div.style.gridColumn = `span ${coord[1] - coord[0] } / ${coord[1]+1}`
     div.style.padding = "1rem"
-    div.style.backgroundColor = "green"
+    div.style.backgroundColor = color
+
     return div 
 
 }
@@ -218,16 +219,18 @@ function coordinateFromBoolArr(boolArr){
     let last = boolArr.length 
     curr = false 
     for (let i=0 ; i < boolArr.length; i++){
-        
-        if (curr = true && !boolArr[i]){
+        // if false and last item where true 
+        if (curr === true && !boolArr[i]){
+            console.log(i)
             last = i 
             curr = false 
+            continue
+            
         }
         if (boolArr[i] && !curr){
             curr = true
             first = i 
         }
-        
     }
     if (first == -1 && last == boolArr.length){
         return [0, 0]
