@@ -22,6 +22,13 @@ let mocksRemplas = [
         logiciel : "medilogic",
         temps_trajet : 120,
     }, 
+    {
+        debut: "2024-07-22",
+        fin: "2024-09-22",
+        lieu : "bordeaux",
+        logiciel : "medilogic",
+        temps_trajet : 120,
+    }, 
 ]
 
 let colors = ["blue", "purple", "gray", "lightgreen" , "lightblue" ]
@@ -45,7 +52,7 @@ function createCalendar(remplas, day){
 function buildArr(padNum, monthdayCount, date, remplas){
     let padding = new Array(padNum).fill(new Date(0, 0, 0))
     let monthArr = new Array(monthdayCount).fill(0).map((el, index) => {return new Date(date.getFullYear(), date.getMonth(), index + 1)})
-    monthArr = padding.concat(padding)
+    monthArr = padding.concat(monthArr)
     // pass the remplas to delete on next iter in obj.remplas
     // maybe some hashing func 
     
@@ -53,21 +60,47 @@ function buildArr(padNum, monthdayCount, date, remplas){
     let rempObj = {}
 
     for (let i=0; i < monthArr.length; i++){ 
+        console.log(sameDate(monthArr[i], new Date(0,0,0)))
         let obj = {
             date : monthArr[i]
         }  
         for (let j=0; j < remplas.length; j++){
+          
             let hash = remplaHash(remplas[j])
-            if (sameDate(new Date(remplas[j].debut), monthArr[i])){
+
+            // add check if debut is in previous month but end in this month
+            if (new Date(remplas[j].debut) < monthArr[padNum] && monthArr[i] < new Date(remplas[j].fin)
+        ){      
                 rempObj[hash] = true
                 obj[hash] = true 
                 
             }
+            // end of rempla already passed or padding 
+            if ( (new Date(remplas[j].debut) < monthArr[padNum] && new Date(remplas[j].fin) < monthArr[monthArr.length - 1] 
+          && monthArr[i] > new Date(remplas[j].fin))) 
+        {      
+            rempObj[hash] = false
+            obj[hash] = false
+            continue  
+            }
+            if (sameDate(monthArr[i], new Date(0,0,0))){
+                rempObj[hash] = false
+                obj[hash] = false
+                continue
+            }
+            if (sameDate(new Date(remplas[j].debut), monthArr[i])){
+                rempObj[hash] = true
+                obj[hash] = true 
+                continue
+                
+            }
+            // last day true 
             if (sameDate(new Date(remplas[j].fin), monthArr[i])) {
                 rempObj[hash] = false 
                 obj[hash] = true 
                 continue
             } 
+            // from last iter 
             else if (!rempObj[hash]){
                 obj[hash] = false
             }
@@ -111,16 +144,12 @@ function createCalendarDiv(arr, remplas){
 
 
 /*       week HTML element creater    */
-function createWeekDiv(arr, remplas){
+function createWeekDiv(arr){
     let div = document.createElement("div")
-    let remplasArr = remplas.map(el => { return {
-        rempla: el,
-        id: remplaHash(el)
-    }})
     let hashObj = {}
     for (obj of arr){
         let span = document.createElement("span")
-        span.textContent = obj.date.getDate()
+        span.textContent = sameDate(obj.date, new Date(0, 0, 0)) ? "": obj.date.getDate()
         span.style.padding = "1rem"
         span.style.border = "1px solid black"
         span.style.backgroundColor = "yellow"
@@ -204,8 +233,8 @@ function sameDate(d1, d2){
 }
 
 function barFromBoolArr(arr, color){
+    
     let coord = coordinateFromBoolArr(arr)
-    console.log(coord, color)
     let div = document.createElement("div")
     if (coord[0] == 0 && coord[1] == 0) return div
     console.log(`span ${coord[1] - coord[0] } / ${coord[1]+1}`,arr)
@@ -226,7 +255,6 @@ function coordinateFromBoolArr(boolArr){
     for (let i=0 ; i < boolArr.length; i++){
         // if false and last item where true 
         if (curr === true && !boolArr[i]){
-            console.log(i)
             last = i 
             curr = false 
             continue
