@@ -1,3 +1,41 @@
+const  Months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre","Octobre", "Novembre", "Decembre"]
+
+
+let mocksRemplas = [
+    {
+        debut: "2024-07-01",
+        fin: "2024-07-31", 
+        lieu : "la rochelle",
+        logiciel : "maxvignt",
+        temps_trajet : 20,
+    }, 
+    {
+        debut: "2024-07-05",
+        fin: "2024-07-14",
+        lieu : "marly gaumont",
+        logiciel : "maximed",
+        temps_trajet : 20,
+    }, 
+    {
+        debut: "2024-07-22",
+        fin: "2024-07-30",
+        lieu : "bordeaux",
+        logiciel : "medilogic",
+        temps_trajet : 120,
+    }, 
+    {
+        debut: "2024-07-22",
+        fin: "2024-09-22",
+        lieu : "bordeaux",
+        logiciel : "medilogic",
+        temps_trajet : 120,
+    }, 
+]
+
+let colors = ["blue", "purple", "gray", "lightgreen" , "lightblue" ]
+
+
+
 let today = new Date()
 createCalendar(mocksRemplas, today)
 
