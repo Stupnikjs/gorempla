@@ -288,6 +288,9 @@ let today = new Date()
 createCalendar(mocksRemplas, today)
 
 let plusBtn = document.querySelector("#plusBtn")
+let currMonthSpan = document querySelector("#currMonth")
+let currMonth = Months[today.getMonth()]
+currMonthSpan.textContent = currMonth
 plusBtn.addEventListener("click", (e) => {
     let old = document.querySelector("#calendarDiv")
     old.remove()
