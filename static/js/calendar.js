@@ -1,5 +1,8 @@
 // parse rempla from some HTML data elemenr
 
+const  Months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre","Octobre", "Novembre", "Decembre"]
+
+
 let mocksRemplas = [
     {
         debut: "2024-07-01",
