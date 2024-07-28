@@ -1,4 +1,8 @@
-
+@font-face {
+    font-family: 'voltaire'; /* Choose a name for your font */
+    src: url('../fonts/Voltaire-Regular.ttf') format('woff');
+    /* You can include additional formats as needed */
+  }
 
 #calendardiv {
 display: flex; 
@@ -8,4 +12,9 @@ flex-wrap: wrap;
 
 .day {
 width : 14%; 
+}
+
+html > *{
+    font-family: 'voltaire';
+    
 }

@@ -171,7 +171,8 @@ function createWeekDiv(arr, remplas){
     div.style.gridTemplateColumns = "repeat(7, 1fr)"
     div.style.gridColumn = " 1 / -1"
     for (let i = 0; i < Object.entries(hashObj).length; i++){
-        let bar = barFromBoolArr(Object.entries(hashObj)[i][1], colors[i])
+        let rempla = remplas[i]
+        let bar = barFromBoolArr(Object.entries(hashObj)[i][1], colors[i], rempla)
         div.appendChild(bar)
     }
     return div
@@ -232,13 +233,15 @@ function sameDate(d1, d2){
     else return false 
 }
 
-function barFromBoolArr(arr, color){
-    
+function barFromBoolArr(arr, color, rempla){
+    console.log(rempla)
     let coord = coordinateFromBoolArr(arr)
     let div = document.createElement("div")
+    div.classList.add("remplaBar")
     if (coord[0] == 0 && coord[1] == 0) return div
-    console.log(`span ${coord[1] - coord[0] } / ${coord[1]+1}`,arr)
     div.style.gridColumn = `span ${coord[1] - coord[0] } / ${coord[1]+1}`
+    div.textContent = rempla.lieu
+    div.style.textAlign = "center"
     div.style.padding = "1rem"
     div.style.backgroundColor = color
 
