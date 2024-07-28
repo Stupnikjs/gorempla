@@ -4,9 +4,7 @@ function createDaySpans(arr){
     for (let i=0; i < arr.length; i++){
     let span = document.createElement("span")
     span.textContent = date.getDate()
-    span.style.padding = ".5rem"
-    span.style.textAlign = "center"
-    span.style.border = "1px solid black"
+    span.classList.add("daySpan")
     div.appendChild(span)
     }
     return div
