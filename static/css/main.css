@@ -18,3 +18,13 @@ html > *{
     font-family: 'voltaire';
     
 }
+
+.remplaBar{
+ border: .5px solid black;
+
+}
+
+.daySpan {
+ padding: "1rem";
+
+}
