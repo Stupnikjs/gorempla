@@ -121,6 +121,7 @@ function createWeekDiv(arr, remplas){
         let span = document.createElement("span")
         span.textContent = sameDate(obj.date, new Date(0, 0, 0)) ? "": obj.date.getDate()
         span.style.padding = "1rem"
+        span.classList.add("daySpan")
         span.style.border = "1px solid black"
         span.style.backgroundColor = "yellow"
         for (hash of  Object.keys(obj)){
