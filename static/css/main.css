@@ -26,13 +26,17 @@ html > *{
 
 }
 
-.remplaBarContainer{}
+.remplaBarContainer{
+   color:black;
+}
 .remplaBar{
  border: .5px solid black;
+ padding: 1rem; 
 
 }
 
 .daySpan {
- padding: "1rem";
+ padding: 1rem;
+ 
 
 }
