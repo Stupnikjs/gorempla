@@ -215,7 +215,7 @@ function barFromBoolArr(arr, color, rempla){
     div.style.textAlign = "center"
     div.style.padding = "1rem"
     div.style.backgroundColor = color
-
+    
     return div 
 
 }
