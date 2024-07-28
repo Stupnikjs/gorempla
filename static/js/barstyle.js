@@ -29,20 +29,6 @@ function appendDayBar(div){
 
 
 
-function createRemplaBar(rempla){
-    
-    let remplaBar = document.createElement("span")
-    remplaBar.style.padding = ".5rem"
-    remplaBar.style.display = ok ? "grid" : "none"
-    remplaBar.style.gridTemplateColumns = "repeat(7, 1fr)"
-    remplaBar.style.border = "1px solid black"
-    remplaBar.style.width = "100%"
-    remplaBar.style.gridColumn = "7 span"
-    let childRemplaBar = getChildRemplaBar(rempla, offsets)
-    childRemplaBar.style.backgroundColor = colors[j]
-    remplaBar.appendChild(childRemplaBar)
-    return remplaBar
-}
 
 
 

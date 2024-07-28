@@ -205,11 +205,11 @@ function sameDate(d1, d2){
 }
 
 function barFromBoolArr(arr, color, rempla){
-    console.log(rempla)
+    
     let coord = coordinateFromBoolArr(arr)
     let div = document.createElement("div")
-    div.classList.add("remplaBar")
     if (coord[0] == 0 && coord[1] == 0) return div
+    div.classList.add("remplaBar")
     div.style.gridColumn = `span ${coord[1] - coord[0] } / ${coord[1]+1}`
     div.textContent = rempla.lieu
     div.style.textAlign = "center"
