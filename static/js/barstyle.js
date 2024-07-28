@@ -18,6 +18,7 @@ function appendDayBar(div){
     for (let i=0; i < days.length; i++){
         let span = document.createElement("span")
         span.textContent = days[i]
+        span.classList.add("dayBar")
         span.style.padding = ".5rem"
         span.style.textAlign = "center"
         span.style.border = "1px solid black"
