@@ -25,6 +25,8 @@ html > *{
 
 
 }
+
+.remplaBarContainer{}
 .remplaBar{
  border: .5px solid black;
 
